@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Category: Java后端 | Hexo</title>
+  <title>实习day8 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/categories/Java%E5%90%8E%E7%AB%AF/index.html">
+  <meta name="description" content="关于bean注入相关问题 @Autowird、@Resource和构造器注入结论：推荐使用构造器注入（官方spring4.x版本中的推荐写法） 区别： @Autowired 根据type进行装配。默认情况下要求依赖对象必须存在，如果允许为null值，可以设置required属性为false。（spring产物） @Resource 装配顺序：  如果同时指定了name和type，则从Spring上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习day8">
+<meta property="og:url" content="http://example.com/2023/06/25/%E5%AE%9E%E4%B9%A0day8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于bean注入相关问题 @Autowird、@Resource和构造器注入结论：推荐使用构造器注入（官方spring4.x版本中的推荐写法） 区别： @Autowired 根据type进行装配。默认情况下要求依赖对象必须存在，如果允许为null值，可以设置required属性为false。（spring产物） @Resource 装配顺序：  如果同时指定了name和type，则从Spring上">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/.%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg">
+<meta property="article:published_time" content="2023-06-25T13:28:15.000Z">
+<meta property="article:modified_time" content="2023-06-25T13:48:20.893Z">
 <meta property="article:author" content="布会划水の闲余">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -144,37 +150,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-实习day8" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      实习day8
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" class="archive-article-date">
+
+        
+        <a href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" class="archive-article-date">
   	<time datetime="2023-06-25T13:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/">实习day8</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于bean注入相关问题</p>
+<h2 id="Autowird、-Resource和构造器注入"><a href="#Autowird、-Resource和构造器注入" class="headerlink" title="@Autowird、@Resource和构造器注入"></a>@Autowird、@Resource和构造器注入</h2><p>结论：推荐使用构造器注入（官方spring4.x版本中的推荐写法）</p>
+<p>区别：</p>
+<p><strong>@Autowired</strong></p>
+<p>根据type进行装配。默认情况下要求依赖对象必须存在，如果允许为null值，可以设置required属性为false。（spring产物）</p>
+<p><strong>@Resource</strong></p>
+<p>装配顺序：</p>
+<ol>
+<li><p>如果同时指定了name和type，则从Spring上下文中找到唯一匹配的bean进行装配，找不到则抛出异常</p>
+</li>
+<li><p>如果指定了name，则从上下文中查找名称（id）匹配的bean进行装配，找不到则抛出异常</p>
+</li>
+<li><p>如果指定了type，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常</p>
+</li>
+<li><p>如果既没有指定name，又没有指定type，则自动按照byName方式进行装配；如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配；</p>
+</li>
+</ol>
+<p><strong>构造器注入</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Field field;</span><br><span class="line">    <span class="keyword">public</span> A&#123;</span><br><span class="line">        <span class="built_in">this</span>.field = field;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<blockquote>
+<p>Spring团队通常提倡<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0&spm=1001.2101.3001.7020">构造函数</a>注入，因为它使人们能够将应用程序组件实现为不可变的对象并确保所需的依赖项不为null。此外，注入构造函数的组件总是以完全初始化的状态返回到客户端（调用）代码。</p>
+</blockquote>
+<p>重点：</p>
+<ol>
+<li>不可变对象：所以依赖对象前面价格final</li>
+<li>确保依赖对象不为null：不至于在调用时才报错，直接启动就报错</li>
+</ol>
+<p><strong>对比</strong>：对于IOC容器以外的环境，除了使用反射来提供它需要的依赖之外，无法复用该实现类。而且将一直是个潜在的隐患，因为你不调用将一直无法发现NPE的存在。</p>
+<p>另外,使用field注入可能会导致循环依赖。<br>如果使用构造器注入，在spring项目启动的时候，就以此告诉你的程序循环依赖。<br>会报The dependencies of some of the beans in the application context form a cycle<br>如果是field注入的话，启动的时候不会报错，在使用那个bean的时候才会报错。</p>
+<p>PS：今天在测试类里面进行services测试报错：</p>
+<p><img src="/.%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg"></p>
+<p>具体原因不是很清楚，明天尝试进行解决、</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -187,327 +224,117 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/" class="archive-article-date">
-  	<time datetime="2023-06-21T12:29:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day7</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/">实习day7</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Autowird%E3%80%81-Resource%E5%92%8C%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">@Autowird、@Resource和构造器注入</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/" class="archive-article-date">
-  	<time datetime="2023-06-20T13:32:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/">实习day6</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/" class="archive-article-date">
-  	<time datetime="2023-06-19T13:19:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">实习day5</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/17/day4/" class="archive-article-date">
-  	<time datetime="2023-06-17T09:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/17/day4/">day4</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/" class="archive-article-date">
-  	<time datetime="2023-06-15T12:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/">实习day3</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">需求</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/" class="archive-article-date">
-  	<time datetime="2023-06-14T13:19:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/">实习day2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/" class="archive-article-date">
-  	<time datetime="2023-06-13T12:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">实习day1</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bug</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -530,10 +357,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",

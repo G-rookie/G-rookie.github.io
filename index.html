@@ -146,6 +146,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/">实习day8</a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" class="archive-article-date">
+  	<time datetime="2023-06-25T13:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于bean注入相关问题</p>
+<h2 id="Autowird、-Resource和构造器注入"><a href="#Autowird、-Resource和构造器注入" class="headerlink" title="@Autowird、@Resource和构造器注入"></a>@Autowird、@Resource和构造器注入</h2><p>结论：推荐使用构造器注入（官方spring4.x版本中的推荐写法）</p>
+<p>区别：</p>
+<p><strong>@Autowired</strong></p>
+<p>根据type进行装配。默认情况下要求依赖对象必须存在，如果允许为null值，可以设置required属性为false。（spring产物）</p>
+<p><strong>@Resource</strong></p>
+<p>装配顺序：</p>
+<ol>
+<li><p>如果同时指定了name和type，则从Spring上下文中找到唯一匹配的bean进行装配，找不到则抛出异常</p>
+</li>
+<li><p>如果指定了name，则从上下文中查找名称（id）匹配的bean进行装配，找不到则抛出异常</p>
+</li>
+<li><p>如果指定了type，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常</p>
+</li>
+<li><p>如果既没有指定name，又没有指定type，则自动按照byName方式进行装配；如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配；</p>
+</li>
+</ol>
+<p><strong>构造器注入</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Field field;</span><br><span class="line">    <span class="keyword">public</span> A&#123;</span><br><span class="line">        <span class="built_in">this</span>.field = field;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Spring团队通常提倡<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0&spm=1001.2101.3001.7020">构造函数</a>注入，因为它使人们能够将应用程序组件实现为不可变的对象并确保所需的依赖项不为null。此外，注入构造函数的组件总是以完全初始化的状态返回到客户端（调用）代码。</p>
+</blockquote>
+<p>重点：</p>
+<ol>
+<li>不可变对象：所以依赖对象前面价格final</li>
+<li>确保依赖对象不为null：不至于在调用时才报错，直接启动就报错</li>
+</ol>
+<p><strong>对比</strong>：对于IOC容器以外的环境，除了使用反射来提供它需要的依赖之外，无法复用该实现类。而且将一直是个潜在的隐患，因为你不调用将一直无法发现NPE的存在。</p>
+<p>另外,使用field注入可能会导致循环依赖。<br>如果使用构造器注入，在spring项目启动的时候，就以此告诉你的程序循环依赖。<br>会报The dependencies of some of the beans in the application context form a cycle<br>如果是field注入的话，启动的时候不会报错，在使用那个bean的时候才会报错。</p>
+<p>PS：今天在测试类里面进行services测试报错：</p>
+<p><img src="/.%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg"></p>
+<p>具体原因不是很清楚，明天尝试进行解决、</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
