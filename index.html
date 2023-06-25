@@ -197,7 +197,7 @@
 <p><strong>对比</strong>：对于IOC容器以外的环境，除了使用反射来提供它需要的依赖之外，无法复用该实现类。而且将一直是个潜在的隐患，因为你不调用将一直无法发现NPE的存在。</p>
 <p>另外,使用field注入可能会导致循环依赖。<br>如果使用构造器注入，在spring项目启动的时候，就以此告诉你的程序循环依赖。<br>会报The dependencies of some of the beans in the application context form a cycle<br>如果是field注入的话，启动的时候不会报错，在使用那个bean的时候才会报错。</p>
 <p>PS：今天在测试类里面进行services测试报错：</p>
-<p><img src="/.%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg"></p>
+<p><img src="/..%5Cimg%5C%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8%E7%B1%BB.jpg"></p>
 <p>具体原因不是很清楚，明天尝试进行解决、</p>
 
       
