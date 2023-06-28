@@ -146,6 +146,96 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">实习day11</a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" class="archive-article-date">
+  	<time datetime="2023-06-28T11:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据新数据库presto的接触以及使用</p>
+<h3 id="presto数据库的架构"><a href="#presto数据库的架构" class="headerlink" title="presto数据库的架构"></a>presto数据库的架构</h3><p>Presto使用Catalog、Schema和Table这3层架构 来管理数据</p>
+<ul>
+<li>Catalog：就是数据源。每个数据源连接都有一个名字，一个Catalog可以包含多个Schema，可以通过命令<code>show catalogs</code>查看已连接的所有数据源</li>
+<li>Schema：香港与一个数据库实例，一个Schema包含多张数据表。可以通过命令<code>show schemas from ‘catalog_name’ </code>查看所有的Schema</li>
+<li>Table：数据表，和RDBMS上数据库表意义相同。通过命令<code>show tables from ‘catalog_name.schema_name</code>查看所有的表。</li>
+</ul>
+<p>在Presto中定位一张表，一般是catalog为根。可以简单的理解为：数据源的类别.数据库.数据表</p>
+<blockquote>
+<p>例如：一张表的全称为hive.test_data.test，标识hive（catalog）下的test_data（schema）库中的test表</p>
+</blockquote>
+<p>查询还是和SQL一样进行查询</p>
+<p>PS： </p>
+<p><strong>项目遇到问题</strong>：对于SpringBoot整合presto，进行数据库查询数据时，presto经过了ssl加密处理，无法在yml文件进行配置ssl需要的相关信息（SSL、SSLStoreTrustPath和SSLTrustPassword）。</p>
+<p>解决方法：需要单独提出来配置成一个DataSourceConfig类，在其中配置需要的相关属性和配置。</p>
+<p><strong>MyBatis-plus查询presto问题</strong>：对于直接查询presto表中的字段时。由于数据量大，进行了分页查询，其中MyBatis-plus查询时使用了占位符？来进行替换其中需要字段，但是presto不支持这种方式来进行查询。</p>
+<p>解决方法： 直接显式的指定占位符的值（例如一页数据的大小），或者直接从xml中进行配置。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1079,104 +1169,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">实习day1</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/" class="archive-article-date">
-  	<time datetime="2023-06-13T12:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>拉取代码，直接运行。</p>
-<h2 id="bugFind-amp-Fix："><a href="#bugFind-amp-Fix：" class="headerlink" title="bugFind&amp;Fix："></a>bugFind&amp;Fix：</h2><ol>
-<li><p>无法正常启动。</p>
-<p>出现原因：项目启动默认使用配置的yaml文件（该文件为发布使用），配置不够齐全</p>
-<p>解决方法：换成开发环境的yaml文件正常运行</p>
-</li>
-<li><p>数据库连接问题</p>
-<p>出现原因：数据库连接失败。</p>
-<p>解决方法：切换成另一个连接的网路。</p>
-<blockquote>
-<p>该网络和数据库可能在同一局域内，可以正常访问。</p>
-</blockquote>
-</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bug</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">展开全文 >></a>
         </p>
       
 

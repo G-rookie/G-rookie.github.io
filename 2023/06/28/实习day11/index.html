@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Hexo</title>
+  <title>实习day11 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/2/index.html">
+  <meta name="description" content="数据新数据库presto的接触以及使用 presto数据库的架构Presto使用Catalog、Schema和Table这3层架构 来管理数据  Catalog：就是数据源。每个数据源连接都有一个名字，一个Catalog可以包含多个Schema，可以通过命令show catalogs查看已连接的所有数据源 Schema：香港与一个数据库实例，一个Schema包含多张数据表。可以通过命令show s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习day11">
+<meta property="og:url" content="http://example.com/2023/06/28/%E5%AE%9E%E4%B9%A0day11/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据新数据库presto的接触以及使用 presto数据库的架构Presto使用Catalog、Schema和Table这3层架构 来管理数据  Catalog：就是数据源。每个数据源连接都有一个名字，一个Catalog可以包含多个Schema，可以通过命令show catalogs查看已连接的所有数据源 Schema：香港与一个数据库实例，一个Schema包含多张数据表。可以通过命令show s">
 <meta property="og:locale">
+<meta property="article:published_time" content="2023-06-28T11:12:09.000Z">
+<meta property="article:modified_time" content="2023-06-28T13:44:01.271Z">
 <meta property="article:author" content="布会划水の闲余">
 <meta name="twitter:card" content="summary">
   
@@ -144,42 +148,43 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-实习day1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-实习day11" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">实习day1</a>
+    <h1 class="article-title" itemprop="name">
+      实习day11
     </h1>
   
 
         
-        <a href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/" class="archive-article-date">
-  	<time datetime="2023-06-13T12:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-13</time>
+        <a href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" class="archive-article-date">
+  	<time datetime="2023-06-28T11:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>拉取代码，直接运行。</p>
-<h2 id="bugFind-amp-Fix："><a href="#bugFind-amp-Fix：" class="headerlink" title="bugFind&amp;Fix："></a>bugFind&amp;Fix：</h2><ol>
-<li><p>无法正常启动。</p>
-<p>出现原因：项目启动默认使用配置的yaml文件（该文件为发布使用），配置不够齐全</p>
-<p>解决方法：换成开发环境的yaml文件正常运行</p>
-</li>
-<li><p>数据库连接问题</p>
-<p>出现原因：数据库连接失败。</p>
-<p>解决方法：切换成另一个连接的网路。</p>
+        <p>数据新数据库presto的接触以及使用</p>
+<h3 id="presto数据库的架构"><a href="#presto数据库的架构" class="headerlink" title="presto数据库的架构"></a>presto数据库的架构</h3><p>Presto使用Catalog、Schema和Table这3层架构 来管理数据</p>
+<ul>
+<li>Catalog：就是数据源。每个数据源连接都有一个名字，一个Catalog可以包含多个Schema，可以通过命令<code>show catalogs</code>查看已连接的所有数据源</li>
+<li>Schema：香港与一个数据库实例，一个Schema包含多张数据表。可以通过命令<code>show schemas from ‘catalog_name’ </code>查看所有的Schema</li>
+<li>Table：数据表，和RDBMS上数据库表意义相同。通过命令<code>show tables from ‘catalog_name.schema_name</code>查看所有的表。</li>
+</ul>
+<p>在Presto中定位一张表，一般是catalog为根。可以简单的理解为：数据源的类别.数据库.数据表</p>
 <blockquote>
-<p>该网络和数据库可能在同一局域内，可以正常访问。</p>
+<p>例如：一张表的全称为hive.test_data.test，标识hive（catalog）下的test_data（schema）库中的test表</p>
 </blockquote>
-</li>
-</ol>
+<p>查询还是和SQL一样进行查询</p>
+<p>PS： </p>
+<p><strong>项目遇到问题</strong>：对于SpringBoot整合presto，进行数据库查询数据时，presto经过了ssl加密处理，无法在yml文件进行配置ssl需要的相关信息（SSL、SSLStoreTrustPath和SSLTrustPassword）。</p>
+<p>解决方法：需要单独提出来配置成一个DataSourceConfig类，在其中配置需要的相关属性和配置。</p>
+<p><strong>MyBatis-plus查询presto问题</strong>：对于直接查询presto表中的字段时。由于数据量大，进行了分页查询，其中MyBatis-plus查询时使用了占位符？来进行替换其中需要字段，但是presto不支持这种方式来进行查询。</p>
+<p>解决方法： 直接显式的指定占位符的值（例如一页数据的大小），或者直接从xml中进行配置。</p>
 
       
 
@@ -188,17 +193,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bug</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -213,16 +207,75 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day10</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -237,92 +290,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/27/hello-world/" class="archive-article-date">
-  	<time datetime="2022-02-27T09:20:55.051Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/27/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#presto%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">presto数据库的架构</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
+  
+  
+  
 
   
+
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
+
   
 
 
@@ -345,8 +338,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
