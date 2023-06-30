@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2023 | Hexo</title>
+  <title>实习day13 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2023/index.html">
+  <meta name="description" content="周总结 本周工作：1. 将原来魔龙云白名单自动检测设计文档内容进行细化，展现数据库请求，请求数据分页，调用魔龙云服务进行处理，并且根据返回状态码进行告警 2. 完成presto数据库连接测试，向presto进行数据请求 3. 完成魔龙云接口请求测试，将数据封装并请求魔龙云服务，并得到响应结果 4. 根据开发设计文档进行开发，将内容进行逻辑串联，完成魔龙云白名单自动检测的开发需求  出现问题： Sp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习day13">
+<meta property="og:url" content="http://example.com/2023/06/30/%E5%AE%9E%E4%B9%A0day13/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="周总结 本周工作：1. 将原来魔龙云白名单自动检测设计文档内容进行细化，展现数据库请求，请求数据分页，调用魔龙云服务进行处理，并且根据返回状态码进行告警 2. 完成presto数据库连接测试，向presto进行数据请求 3. 完成魔龙云接口请求测试，将数据封装并请求魔龙云服务，并得到响应结果 4. 根据开发设计文档进行开发，将内容进行逻辑串联，完成魔龙云白名单自动检测的开发需求  出现问题： Sp">
 <meta property="og:locale">
+<meta property="article:published_time" content="2023-06-30T12:07:40.000Z">
+<meta property="article:modified_time" content="2023-06-30T13:07:03.438Z">
 <meta property="article:author" content="布会划水の闲余">
 <meta name="twitter:card" content="summary">
   
@@ -144,37 +148,47 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-实习day13" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      实习day13
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" class="archive-article-date">
+
+        
+        <a href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" class="archive-article-date">
   	<time datetime="2023-06-30T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-30</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">实习day13</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>周总结</p>
+<h3 id="本周工作："><a href="#本周工作：" class="headerlink" title="本周工作："></a>本周工作：</h3><pre><code>1. 将原来魔龙云白名单自动检测设计文档内容进行细化，展现数据库请求，请求数据分页，调用魔龙云服务进行处理，并且根据返回状态码进行告警
+2. 完成presto数据库连接测试，向presto进行数据请求
+3. 完成魔龙云接口请求测试，将数据封装并请求魔龙云服务，并得到响应结果
+4. 根据开发设计文档进行开发，将内容进行逻辑串联，完成魔龙云白名单自动检测的开发需求
+</code></pre>
+<p>出现问题：</p>
+<p>SpringBoot中<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=RestTemplate&spm=1001.2101.3001.7020">RestTemplate</a>无法通过@Autowired注解实现自动注入。</p>
+<p>没有配置相关的bean，在配置类中注入以下内容即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>PS：需求基本搞定，目前还有点小bug需要进行相关处理，另外其中的一些细节需要进行细致化处理。比如请求和响应可以进行异步处理，另外分页查询数据库和将查询的数据封装成请求体可以使用多线程提高效率，另外还可以加个数据库的连接池，避免连接创建和销毁的开销，还有数据一次性请求的量的大小，适量而行，在数据库查询和服务请求去平衡。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -187,373 +201,116 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/" class="archive-article-date">
-  	<time datetime="2023-06-29T11:30:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day12</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/">实习day12</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java后端//" class="article-tag-list-link color2">java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E5%B7%A5%E4%BD%9C%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">本周工作：</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" class="archive-article-date">
-  	<time datetime="2023-06-28T11:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">实习day11</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/" class="archive-article-date">
-  	<time datetime="2023-06-27T11:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-27</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/">实习day10</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java后端//" class="article-tag-list-link color2">java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/" class="archive-article-date">
-  	<time datetime="2023-06-26T13:36:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/">实习day9</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" class="archive-article-date">
-  	<time datetime="2023-06-25T13:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/">实习day8</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/" class="archive-article-date">
-  	<time datetime="2023-06-21T12:29:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/">实习day7</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/" class="archive-article-date">
-  	<time datetime="2023-06-20T13:32:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/">实习day6</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/" class="archive-article-date">
-  	<time datetime="2023-06-19T13:19:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">实习day5</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/17/day4/" class="archive-article-date">
-  	<time datetime="2023-06-17T09:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/17/day4/">day4</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2023/page/2/">2</a><a class="extend next" rel="next" href="/archives/2023/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -577,8 +334,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
