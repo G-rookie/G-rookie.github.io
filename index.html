@@ -146,6 +146,104 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/">实习day14</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/" class="archive-article-date">
+  	<time datetime="2023-07-04T11:43:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于需求评审和项目优化相关</p>
+<h3 id="对于项目优化"><a href="#对于项目优化" class="headerlink" title="对于项目优化"></a>对于项目优化</h3><p>整个项目逻辑已经完全开发完成。目前存在或者说可以优化的一些方面包括：优化数据库连接，增加相应的代码注释，优化数据请求，服务请求和数据库查询异步解耦以及丰富具体告警日志</p>
+<ul>
+<li><p>对于数据库的查询其中需要的批次请求，频繁的请求数据库进行多次的IO造成性能下降。</p>
+<blockquote>
+<p>优化方法：增加了数据库连接池，避免频繁多次请求数据库，造成资源开销</p>
+<p>（另外由于频繁请求，想先将数据进行请求到内存，然后基于该list进行分页或者说批量请求。但是考虑到数据量的规模，以及往后数据的增长性，该方法不可行）</p>
+</blockquote>
+</li>
+<li><p>对于服务请求和数据库查询</p>
+<blockquote>
+<p>本项目中使用的是同步请求，需要先将数据完全请求完毕，然后再将数据封装成单个请求体，请求服务，得到响应结果</p>
+<p>优化方法：将数据库查询和数据请求分开，进行异步发送。</p>
+</blockquote>
+</li>
+<li><p>对于告警日志</p>
+<blockquote>
+<p>对于告警，目前只有在控制台进行日志打印</p>
+<p>优化方法：将不同的错误类型进行枚举，然后根据不同类型的错误进行归档，然后进行追踪，可以根据不同类型进行排查。</p>
+<p>（系统链路过长，出现问题不好追踪，设计了错误码（做了一个错误码的分类，做了错误级别、错误类型、错误场景、错误编码）；其目的规范应用错误的传递，保证错误的可追溯，去减少定位的问题）</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="对于会议评审"><a href="#对于会议评审" class="headerlink" title="对于会议评审"></a>对于会议评审</h3><p>对于开发文档做了相应的修改，具体到某些细节的分析：数据请求，服务请求，告警处理。</p>
+<p>添加某些测试用例，方便测试人员的测试。解答测试人员的疑问点，以及开发完成后面是否需要做补充和扩展。另外添加会议纪要。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1039,102 +1137,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-day4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/17/day4/">day4</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/17/day4/" class="archive-article-date">
-  	<time datetime="2023-06-17T09:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="周报"><a href="#周报" class="headerlink" title="周报"></a>周报</h1><h2 id="本周工作"><a href="#本周工作" class="headerlink" title="本周工作"></a>本周工作</h2><ol>
-<li>熟悉xes业务逻辑</li>
-<li>开发环境测试本地接口</li>
-<li>根据需求整了个文档</li>
-</ol>
-<h2 id="下周工作"><a href="#下周工作" class="headerlink" title="下周工作"></a>下周工作</h2><p>完成需求</p>
-<ol>
-<li>魔龙云api开发调试</li>
-<li>飞书告警逻辑开发</li>
-</ol>
-<p>PS：学的东西忘了挺多，周末补充，慢慢捡起来（Spring框架这一套）</p>
-<p>算法继续刷，八股不能忘。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/17/day4/">展开全文 >></a>
         </p>
       
 
