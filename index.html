@@ -146,6 +146,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day15" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/">实习day15</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/" class="archive-article-date">
+  	<time datetime="2023-07-05T11:50:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>评审之后项目优化和重构</p>
+<h3 id="项目优化"><a href="#项目优化" class="headerlink" title="项目优化"></a>项目优化</h3><p>白名单扫描的项目已经完成，昨天评审完之后，今日和导师讨论了一下需要相关的修改。</p>
+<p>目前优化主要针对数据库连接做了一个连接池的相关优化，另外还有一个同步查询和请求做了一个异步处理。对于其中的某些细节（比如分页的大小，还有需要告警的飞书群的id抽取出来，在yml做了配置）</p>
+<blockquote>
+<p>对于一个小bug的修复：所有数据取完之后，再一次去到空数据放到ResponseBody里面会导致后面发送的请求没有请求体（请求体为空）最后导致请求体为空报错400。做的修改为：加上一个判空的逻辑，最后所有的数据取完之后直接返回即可。</p>
+</blockquote>
+<h3 id="项目重构"><a href="#项目重构" class="headerlink" title="项目重构"></a>项目重构</h3><p>之前的针对白名单进行扫描，只是针对于ip地址进行扫描。目前讨论之后还需要加上域名的扫描，但是针对域名做扫描处理，不能只单单考虑数据库的字段匹配的问题，必须要考虑到域名组合（比如google.com —&gt; <a target="_blank" rel="noopener" href="http://www.google.com)两者扫描到都不能报错.另外对于报错的ip或者域名为方便整理和查看,调用一个飞书表格,将需要的信息记录到表格中.针对于数据展示,只展示部分数据(比如前10条),方便查看./">www.google.com）两者扫描到都不能报错。另外对于报错的ip或者域名为方便整理和查看，调用一个飞书表格，将需要的信息记录到表格中。针对于数据展示，只展示部分数据（比如前10条），方便查看。</a></p>
+<p>另外，由于二者所需要的功能类似，逻辑基本一致，所以目前只是将代码复用的部分进行抽取，原本是考虑到数据查询和服务请求二者应该解耦，放在不同的类中；但考虑到项目的规模性，所以所有的代码放在一个类中，简化开发。</p>
+<p>总结一下：</p>
+<p>对比原有的项目，做出的改变有：将告警的信息添加到飞书文档中，增加一个域名扫描的功能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1051,92 +1134,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">实习day5</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/" class="archive-article-date">
-  	<time datetime="2023-06-19T13:19:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>了解各个对象相关的概念以及关系</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a><strong>概念</strong></h2><p><strong>DTO(Data Transfer Object)</strong></p>
-<p>数据传输对象,原先是为分布式提供粗粒度的数据实体,减少调用次数来提升性能和降低网络压力。</p>
-<p>**VO(view object)**可视层对象,用于给前端显示的对象。(只传递有需要的参数以保障数据安全)</p>
-<p><strong>DO(Domain Object):</strong></p>
-<p>领域对象,一般和数据中的表结构对应。</p>
-<p>**PO(Persistent Object):**持久化对象,是一种 o&#x2F;r 映射关系,可以看成是数据库表到java对象的映射。</p>
-<p><strong>DTO</strong>:前端给后端传递的数据</p>
-<p><strong>VO</strong>:后端给前端传递的数据</p>
-<p><strong>DO</strong>:数据库表结构</p>
-<p><strong>PO</strong>:数据库表结构到JAVA的映射类</p>
-<p><img src="/../img/%E5%90%84%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt="img"></p>
-<p>PS：开始写代码，手忙脚乱，搞不太懂各个服务之间怎么调用，还有不知道怎么用Java实现http请求去请求数据，明天再问一问。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">展开全文 >></a>
         </p>
       
 
