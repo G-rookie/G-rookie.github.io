@@ -146,6 +146,107 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/12/%E5%AE%9E%E4%B9%A0day20/">实习day20</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/12/%E5%AE%9E%E4%B9%A0day20/" class="archive-article-date">
+  	<time datetime="2023-07-12T12:04:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于项目新增小需求以及遇到问题</p>
+<h3 id="项目新需求"><a href="#项目新需求" class="headerlink" title="项目新需求"></a>项目新需求</h3><p>为方便测试人员测试，还有以后自测，目前飞书新增了一个检测的文档。在其中只要填入相应的信息，即可检查填入的字段是是否有问题即可。</p>
+<p>今日所做内容，单独抽取出来一个方法，读取飞书文档的内容，将每个表中的字段映射成一个大的map集合，然后根据这个集合，抽取其中的属性值，然后封装成公共类prestoQueryResp，最后拿到这个实体类，调用之前封装好的方法，将需要的参数放进去即可。</p>
+<h3 id="遇到问题："><a href="#遇到问题：" class="headerlink" title="遇到问题："></a>遇到问题：</h3><ul>
+<li><p>如何读取到飞书表格中的内容</p>
+<blockquote>
+<p>之前飞书的工具类中有相应的方法，直接调用即可</p>
+</blockquote>
+</li>
+<li><p>如何处理表中多行数据</p>
+<blockquote>
+<p>拿到的数据是多行数据，需要进行遍历，拆分成一条数据，然后将每条数据进行处理。</p>
+</blockquote>
+</li>
+<li><p>表中一行数据如何封装成实体类</p>
+<blockquote>
+<p>拿到数据先通过getfield（）方法得到属性值（map），然后遍历这个map，获得对应的key，将这个key和prestoQueryResp类的属性逐一对应，将key对应的属性赋值给属性即可。</p>
+</blockquote>
+</li>
+<li><p>表中的字符串如何拆分成list</p>
+<blockquote>
+<p>其中某个字段只是一个json格式的字符串，直接调用jackson的方法即可封装成list，另外针对其他格式，可以适当的进行处理。另外也可以加一个规范要求，让输入者按照规范来输入，否则抛出异常。</p>
+</blockquote>
+</li>
+</ul>
+<p>思考：</p>
+<p>代码写到一半就卡住，有时候就卡在一个地方纠结很久，不知道为什么。归根结底，还是思维逻辑不够清晰，写之前还是要将思路写出来，然后根据思路逐步拆解。</p>
+<p>除了考虑开发的完成行，还需要考虑到程序的可用性，用户体验性，以及日后异常排查，养成好的注释习惯，还有异常处理，需要考虑的范围，最终包裹的异常要实时告出来。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/12/%E5%AE%9E%E4%B9%A0day20/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day19" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -931,87 +1032,9 @@
 
 
   
-    <article id="post-实习day10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/">实习day10</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/" class="archive-article-date">
-  	<time datetime="2023-06-27T11:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="关于需要请求大量数据的相关思路"><a href="#关于需要请求大量数据的相关思路" class="headerlink" title="关于需要请求大量数据的相关思路"></a>关于需要请求大量数据的相关思路</h3><p>今日开发过程中需要向数据库请求大量的数据（200W+)，最后需要拿到这些数据，然后进行处理，然后将这些数据发送给另一个服务，然后将其进行处理。</p>
-<p>思路：先请求数据库，然后将这些数据进行分页处理，分批次的请求这些数据（或将这些数据发送给请求端），然后将这些数据批量发送给某个服务进行批量处理，遇到有问题的数据先进行存放至某个容器中（list，map），或直接将异常数据进行处理。</p>
-<p>PS：对于进行http请求时，hutool自带的httputil请求一直出现500问题，还有自带httpURLconnection请求头加不进去的出现401问题。</p>
-<p>解决方法：换了springBoot自带的restTemplate发送HTTP请求，解决问题。</p>
-<p>对于其中相关的500和401的问题一直纳闷，500的大概率是因为http请求不是HTTPS。另一个401是尝试加请求头，但是询问之后服务没有加校验的相关问题，尝试了网上的解决方法，仍无法起作用。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java后端//" class="article-tag-list-link color2">java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/27/%E5%AE%9E%E4%B9%A0day10/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
