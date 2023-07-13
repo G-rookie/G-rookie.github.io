@@ -146,6 +146,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day21" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/">实习day21</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/" class="archive-article-date">
+  	<time datetime="2023-07-13T11:34:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于项目评审和最终优化</p>
+<h3 id="最终评审"><a href="#最终评审" class="headerlink" title="最终评审"></a>最终评审</h3><p>部门小组讨论之后，确定了最终项目的部署方案，另外对于压测和服务可用性的问题，其中对于域名级联的情况已经将数据量进行方法，所以对于压测没有必要，对于之前将所有的数据全部请求完成，之后再从文件中进行读取，这种方案暂时放弃，另外对于项目中可变的参数进行抽取，将数据量请求、分页请求、定时任务何时触发以及飞书告警数量等都配置在yml文件中。</p>
+<h3 id="补充优化"><a href="#补充优化" class="headerlink" title="补充优化"></a>补充优化</h3><p>目前为飞书测试文档增加了一个开关按钮，方便测试或自测调用。还有细化异常原因，将飞书卡片美化，内容更清晰易读。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -913,96 +989,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">实习day11</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" class="archive-article-date">
-  	<time datetime="2023-06-28T11:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据新数据库presto的接触以及使用</p>
-<h3 id="presto数据库的架构"><a href="#presto数据库的架构" class="headerlink" title="presto数据库的架构"></a>presto数据库的架构</h3><p>Presto使用Catalog、Schema和Table这3层架构 来管理数据</p>
-<ul>
-<li>Catalog：就是数据源。每个数据源连接都有一个名字，一个Catalog可以包含多个Schema，可以通过命令<code>show catalogs</code>查看已连接的所有数据源</li>
-<li>Schema：香港与一个数据库实例，一个Schema包含多张数据表。可以通过命令<code>show schemas from ‘catalog_name’ </code>查看所有的Schema</li>
-<li>Table：数据表，和RDBMS上数据库表意义相同。通过命令<code>show tables from ‘catalog_name.schema_name</code>查看所有的表。</li>
-</ul>
-<p>在Presto中定位一张表，一般是catalog为根。可以简单的理解为：数据源的类别.数据库.数据表</p>
-<blockquote>
-<p>例如：一张表的全称为hive.test_data.test，标识hive（catalog）下的test_data（schema）库中的test表</p>
-</blockquote>
-<p>查询还是和SQL一样进行查询</p>
-<p>PS： </p>
-<p><strong>项目遇到问题</strong>：对于SpringBoot整合presto，进行数据库查询数据时，presto经过了ssl加密处理，无法在yml文件进行配置ssl需要的相关信息（SSL、SSLStoreTrustPath和SSLTrustPassword）。</p>
-<p>解决方法：需要单独提出来配置成一个DataSourceConfig类，在其中配置需要的相关属性和配置。</p>
-<p><strong>MyBatis-plus查询presto问题</strong>：对于直接查询presto表中的字段时。由于数据量大，进行了分页查询，其中MyBatis-plus查询时使用了占位符？来进行替换其中需要字段，但是presto不支持这种方式来进行查询。</p>
-<p>解决方法： 直接显式的指定占位符的值（例如一页数据的大小），或者直接从xml中进行配置。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">展开全文 >></a>
         </p>
       
 
