@@ -146,6 +146,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day22" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/">实习day22</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/" class="archive-article-date">
+  	<time datetime="2023-07-14T14:14:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>周总结</p>
+<p>本周工作：</p>
+<p>​    1. 调整presto数据库连接，优化查询性能</p>
+<p>​    2. 新增飞书表格数据源，开发对应接口方便测试数据提交魔龙云检测</p>
+<p>​    3. 将现有异常进行优化，细化异常告警范围，优化飞书告警卡片内容</p>
+<p>​    4. 调整开发文档部分内容，解答测试人员疑问</p>
+<p>​    5. 完成白名单扫描、异常告警项目的需求，并对项目进行总结</p>
+<p>下周计划：</p>
+<p>​    1. 蜥蜴管理平台新功能开发本周工作：</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day21" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -904,91 +986,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day12" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/">实习day12</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/" class="archive-article-date">
-  	<time datetime="2023-06-29T11:30:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>日常事务</p>
-<h3 id="对于presto数据库的操作"><a href="#对于presto数据库的操作" class="headerlink" title="对于presto数据库的操作"></a>对于presto数据库的操作</h3><p>今日对于数据库presto进行查询操作，其中操作库ip_whitelist中由于其中表的数据量比较大需要进行分页，然后进行批量处理。</p>
-<p>具体操作为：写sql批量查询数据，然后用limit字段进行分页，另外加上一个offset的偏移量字段。</p>
-<p>今日对于项目出现的问题做一下简单归纳：</p>
-<ul>
-<li><p>对于项目启动config包中配置了全局数据连接，但是其中调用了DataSource的bean，另外为了方便使用了DataSource注入调用jdbctemplate，以便后续方法中可以调用。对于其中的bean进行了内部调用自身，形成了bean的循环依赖，导致项目启动失败。改进方法为：将后面的二次注入的jdbctemplate注掉即可。</p>
-</li>
-<li><p>对于presto不支持offset关键字。解决方法为：使用SQL拼接的方式进行不使用？占位符，另外将需要的字段单独赋值，然后拼接到sql需要的位置即可。</p>
-</li>
-<li><p>对于项目代码的书写问题：进行项目的完善需要逐步完成，理清思路，将需要的逻辑理清楚，然后进行书写，然后逐步进行开发。另外，可以先使用log日志先行打印，判断思路的正确与否，逐步进行完善。</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java后端//" class="article-tag-list-link color2">java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/29/%E5%AE%9E%E4%B9%A0day12/">展开全文 >></a>
         </p>
       
 
