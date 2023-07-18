@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Hexo</title>
+  <title>实习day24 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/3/index.html">
+  <meta name="description" content="关于项目以及线程池 项目还是和昨天一样，继续看业务逻辑代码。 今天主要复习补充线程池相关知识。 线程池定义：线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习day24">
+<meta property="og:url" content="http://example.com/2023/07/18/%E5%AE%9E%E4%B9%A0day24/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于项目以及线程池 项目还是和昨天一样，继续看业务逻辑代码。 今天主要复习补充线程池相关知识。 线程池定义：线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK">
 <meta property="og:locale">
+<meta property="article:published_time" content="2023-07-18T13:18:02.000Z">
+<meta property="article:modified_time" content="2023-07-18T14:08:36.278Z">
 <meta property="article:author" content="布会划水の闲余">
 <meta name="twitter:card" content="summary">
   
@@ -144,244 +148,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-day4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-实习day24" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/17/day4/">day4</a>
+    <h1 class="article-title" itemprop="name">
+      实习day24
     </h1>
   
 
         
-        <a href="/2023/06/17/day4/" class="archive-article-date">
-  	<time datetime="2023-06-17T09:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-17</time>
+        <a href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" class="archive-article-date">
+  	<time datetime="2023-07-18T13:18:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="周报"><a href="#周报" class="headerlink" title="周报"></a>周报</h1><h2 id="本周工作"><a href="#本周工作" class="headerlink" title="本周工作"></a>本周工作</h2><ol>
-<li>熟悉xes业务逻辑</li>
-<li>开发环境测试本地接口</li>
-<li>根据需求整了个文档</li>
-</ol>
-<h2 id="下周工作"><a href="#下周工作" class="headerlink" title="下周工作"></a>下周工作</h2><p>完成需求</p>
-<ol>
-<li>魔龙云api开发调试</li>
-<li>飞书告警逻辑开发</li>
-</ol>
-<p>PS：学的东西忘了挺多，周末补充，慢慢捡起来（Spring框架这一套）</p>
-<p>算法继续刷，八股不能忘。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/17/day4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/">实习day3</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/" class="archive-article-date">
-  	<time datetime="2023-06-15T12:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目XES</p>
-<h3 id="工作项"><a href="#工作项" class="headerlink" title="工作项"></a>工作项</h3><p>魔龙云扫描完善测试用例，通过全量白名单，简历自动化测试daily运行机制，增加飞书告警</p>
-<p>关键点：</p>
-<ul>
-<li>魔龙云调用</li>
-<li>白名单库</li>
-<li>自动化测试</li>
-<li>飞书告警</li>
+        <p>关于项目以及线程池</p>
+<p>项目还是和昨天一样，继续看业务逻辑代码。</p>
+<p>今天主要复习补充线程池相关知识。</p>
+<h3 id="线程池定义："><a href="#线程池定义：" class="headerlink" title="线程池定义："></a><strong>线程池定义</strong>：</h3><p>线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK中也提供了Executors工厂类来创建线程池（不推荐使用）。</p>
+<p><strong>线程池的优点：</strong></p>
+<p><strong>降低资源消耗</strong>，复用已创建的线程来降低创建和销毁线程的消耗。</p>
+<p><strong>提高响应速度</strong>，任务到达时，可以不需要等待线程的创建立即执行。</p>
+<p><strong>提高线程的可管理性</strong>，使用线程池能够统一的分配、调优和监控。</p>
+<h3 id="为什么使用线程池？"><a href="#为什么使用线程池？" class="headerlink" title="为什么使用线程池？"></a><strong>为什么使用线程池？</strong></h3><p>创建线程的一些缺点：</p>
+<p>1）不受控制风险，对于每个创建的线程没有统一管理的地方，每个线程创建后我们不知道线程的去向。</p>
+<p>2）每执行一个任务都需要创建新的线程来执行，创建线程对系统来说开销很高</p>
+<h3 id="ThreadPoolExecutor的构造组成"><a href="#ThreadPoolExecutor的构造组成" class="headerlink" title="ThreadPoolExecutor的构造组成"></a><strong>ThreadPoolExecutor的构造组成</strong></h3><p><strong>corePoolSize</strong>，核心线程数量，决定是否创建新的线程来处理到来的任务</p>
+<p><strong>maximumPoolSize</strong>，最大线程数量，线程池中允许创建线程地最大数量</p>
+<p><strong>keepAliveTime</strong>，线程空闲时存活的时间</p>
+<p><strong>unit</strong>，空闲存活时间单位</p>
+<p><strong>workQueue</strong>，任务队列，用于存放已提交的任务</p>
+<p><strong>threadFactory</strong>，线程工厂，用于创建线程执行任务</p>
+<p><strong>handler</strong>，拒绝策略，当线程池处于饱和时，使用某种策略来拒绝任务提交</p>
+<h3 id="线程池地执行流程"><a href="#线程池地执行流程" class="headerlink" title="线程池地执行流程"></a><strong>线程池地执行流程</strong></h3><p>1）如果workerCount &lt; corePoolSize &#x3D;&#x3D;&gt; 创建线程执行提交的任务</p>
+<p>2）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; 阻塞队列未满 &#x3D;&#x3D;&gt; 添加至阻塞队列，等待后续线程来执行提交地任务</p>
+<p>3）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; workerCount &lt; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 创建非核心线程执行提交的任务</p>
+<p>4）如果workerCount &gt;&#x3D; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 执行拒绝策略</p>
+<h3 id="合理设置线程池参数"><a href="#合理设置线程池参数" class="headerlink" title="合理设置线程池参数"></a><strong>合理设置线程池参数</strong></h3><ul>
+<li>CPU 密集型任务(N+1)</li>
 </ul>
-<p>根据以上画出相关流程图：</p>
-<p><img src="/..%5Cimg%5C%E6%B5%81%E7%A8%8B%E5%9B%BE.png"></p>
-<p>出现问题：想的过于复杂</p>
-<p>真实情况为：白名单调用魔龙云服务，根据返回的结果做出不同的处理方式。</p>
-<blockquote>
-<p>未命中：调用飞书接口，发出告警</p>
-<p>命中：返回成功状态码</p>
-</blockquote>
-<p>至于自动化测试情况：制定一个定时任务，目前不需要开发考虑。后续运维做相关处理。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">需求</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/">实习day2</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/" class="archive-article-date">
-  	<time datetime="2023-06-14T13:19:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>代码运行&amp;产生问题</p>
-<h2 id="代码运行"><a href="#代码运行" class="headerlink" title="代码运行"></a>代码运行</h2><p>为了了解项目某些模块，进行断点调试，启动项目具体了解其中包括表单提交和数据库的交互，以及飞书api的调用（虽然没怎么看懂这块）；其中包括了飞书登录的授权校验等。</p>
-<h2 id="产生问题"><a href="#产生问题" class="headerlink" title="产生问题"></a>产生问题</h2><blockquote>
-<p>由于第一次已经登录，再次点击链接进行登录时，会出现某个错误页面，刷新无用。</p>
-<p>出现原因：浏览器已经缓存了登录的cookie。</p>
-<p>解决方法：清除浏览器的缓存，重新登录。</p>
-</blockquote>
-<p>PS：昨天开了下午临时开了个会，了解到一个项目正儿八经开发到后面上线其中牵扯千丝万缕，测试，前端，还有其他部门等。某些名词听不懂。但大致也了解到接下来需要做那个模块。</p>
-<h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p>群友偶然发的一个链接，内容是对于技术面试的相关讨论。</p>
-<p>其中对于某些技术的思考和相关感悟：</p>
+<p>这种任务消耗的主要是 CPU 资源，可以将线程数设置为 N（CPU 核心数）+1，比 CPU 核心数多出来的一个线程是为了防止线程偶发的缺页中断，或者其它原因导致的任务暂停而带来的影响。一旦任务暂停，CPU 就会处于空闲状态，而在这种情况下多出来的一个线程就可以充分利用 CPU 的空闲时间。</p>
 <ul>
-<li>什么场景下用的什么技术</li>
-<li>不用该技术，项目该如何设计</li>
-<li>还有哪一块功能可以用到该技术</li>
-<li>和自己学的那些技术可以进行关联</li>
-<li>…</li>
+<li>I&#x2F;O 密集型任务(2N)</li>
 </ul>
-<p>八股是基础理论，项目是实践应用，但是实践之前更多的是思考，在工作中进行思考和验证。</p>
+<p>这种任务应用起来，系统会用大部分的时间来处理 I&#x2F;O 交互，而线程在处理 I&#x2F;O 的时间段内不会占用 CPU 来处理，这时就可以将 CPU 交出给其它线程使用。因此在 I&#x2F;O 密集型任务的应用中，我们可以多配置一些线程，具体的计算方法是 2N。</p>
+<p><strong>如何判断是 CPU 密集任务还是 IO 密集任务</strong>？</p>
+<p>CPU 密集型简单理解就是利用 CPU 计算能力的任务比如你在内存中对大量数据进行排序。单凡涉及到网络读取，文件读取这类都是 IO 密集型，这类任务的特点是 CPU 计算耗费时间相比于等待 IO 操作完成的时间来说很少，大部分时间都花在了等待 IO 操作完成上。</p>
+<h3 id="使用线程池一些建议"><a href="#使用线程池一些建议" class="headerlink" title="使用线程池一些建议"></a>使用线程池一些建议</h3><p>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险</p>
+<p>Executors 返回的线程池对象的弊端： </p>
+<p>1） Excutors.fixedThreadPool(fixedPoolSize)和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 </p>
+<p>2） Excutors.cachedThreadPool() 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</p>
+<p>【建议】创建线程池的时候应该尽量给线程给个具体的业务名字前缀，方便定位问题。不同类型的业务任务尽量使用不同的线程池</p>
 
       
 
@@ -390,17 +213,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -415,16 +227,75 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/14/%E5%AE%9E%E4%B9%A0day2/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day23</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -439,190 +310,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">实习day1</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/" class="archive-article-date">
-  	<time datetime="2023-06-13T12:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>拉取代码，直接运行。</p>
-<h2 id="bugFind-amp-Fix："><a href="#bugFind-amp-Fix：" class="headerlink" title="bugFind&amp;Fix："></a>bugFind&amp;Fix：</h2><ol>
-<li><p>无法正常启动。</p>
-<p>出现原因：项目启动默认使用配置的yaml文件（该文件为发布使用），配置不够齐全</p>
-<p>解决方法：换成开发环境的yaml文件正常运行</p>
-</li>
-<li><p>数据库连接问题</p>
-<p>出现原因：数据库连接失败。</p>
-<p>解决方法：切换成另一个连接的网路。</p>
-<blockquote>
-<p>该网络和数据库可能在同一局域内，可以正常访问。</p>
-</blockquote>
-</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bug</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/13/%E5%AE%9E%E4%B9%A0day1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9A%E4%B9%89%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">线程池定义：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么使用线程池？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadPoolExecutor%E7%9A%84%E6%9E%84%E9%80%A0%E7%BB%84%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text">ThreadPoolExecutor的构造组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%9C%B0%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">线程池地执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%90%86%E8%AE%BE%E7%BD%AE%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">合理设置线程池参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE"><span class="toc-number">6.</span> <span class="toc-text">使用线程池一些建议</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2022/02/27/hello-world/" class="archive-article-date">
-  	<time datetime="2022-02-27T09:20:55.051Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/02/27/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -645,8 +358,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
