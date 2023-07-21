@@ -146,6 +146,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/">实习day26</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/" class="archive-article-date">
+  	<time datetime="2023-07-21T11:30:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>周总结：</p>
+<p>本周工作：</p>
+<pre><code>1. 熟悉xes-aws-app、xes-nj-app业务逻辑
+2. 开发环境本地接口调试
+3. 辅助吴晨程进行数据调研并进行整理归档
+4. 调整cncert有关文档结构并修改相关内容
+</code></pre>
+<p>下周计划：<br>    1. 修改并重新设计cncert数据库表<br>    2. 将cncert项目进行重构并在本地进行调试运行</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -968,89 +1049,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/07/%E5%AE%9E%E4%B9%A0day17/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day16" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/06/%E5%AE%9E%E4%B9%A0day16/">实习day16</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/06/%E5%AE%9E%E4%B9%A0day16/" class="archive-article-date">
-  	<time datetime="2023-07-06T11:38:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于域名扫描的相关需求</p>
-<h3 id="项目完善"><a href="#项目完善" class="headerlink" title="项目完善"></a>项目完善</h3><p>今日对于项目中域名的扫描需求完成情况以及遇到问题。</p>
-<p><strong>首先</strong>针对昨天遗留的域名组合拼接问题：今天想到的解决方法是将日常需要或常见的前缀进行配置，然后对于数据库查询，将需要的字段进行拼接重新组合成新的字符串集合。</p>
-<p>针对这个情况目前有两种解决方法：</p>
-<ul>
-<li>直接查数据库，然后将查到的两个字段直接封装成一个object对象。然后冲object对象中取出需要的两个字段（域名和判断是否需要拼接的变量is_cascade），但是中途出现疑问：对于这两个变量如何进行存放？直接使用查询，然后返回一个object？还是封装成一个map的list集合？中间还要考虑key是否重复？查询语句最终返回类型为哪种？这些细节都要考虑到。</li>
-<li>就是将SQL进行拆分，分成两步查询，另外请求掉用的方法也要拆分成两部分（含有cascade的部分和不含有cascade部分）。还要将含有cascade的部分进行重组，拼上前缀，由此扩大了数据量。最后在归档调用飞书API的归档成一个表格时候，考虑二者属于一个domain下拆分出来的，但最终只记录一个正常与否的字段。异常的话还是需要将二者归并为domain这个类中。考虑两者拆分的方法最终的返回值，两者都为正常值时，才能载domain的字段上标上“正常”的标签，其他情况都是异常。为此，对于调用飞书接口的方法入参多加了一个布尔类型的参数flag，用于判断两者是否异常。但这样写可能会带来某些问题：对于串行执行的话逻辑上没有问题，对于多线程情况下，并行的时候是否考虑到前后flag变化的情况。异常情况下，直接添加即可。</li>
-</ul>
-<p><strong>其次</strong>对于临时增加的需求，为了方便调用和以后的延展性，目前将IP和domain二者封装在一个枚举类中，方便调用。甚至是以后的扩展，可以直接在枚举类中直接添加，在service中可以调用共同使用的方法。</p>
-<p><strong>最后</strong>对于代码书写的问题。写代码的时候要先理清思路，讲究一个条理性，还有一个顺序和逻辑性，最终还需要考虑到特殊情况。写之前先理清思路，标好123…顺序。另外在于考虑时间有限的情况下，先完成需要，然后再进行优化，不要想着一步到位；还有对于多种方法可选的时候，选择自己能快速上手完成的，对于不熟悉的先进行尝试，实在无法完成的情况下需要进行转换。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/06/%E5%AE%9E%E4%B9%A0day16/">展开全文 >></a>
         </p>
       
 
