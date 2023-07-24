@@ -146,6 +146,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day27" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/">实习day27</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/" class="archive-article-date">
+  	<time datetime="2023-07-24T11:27:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于新项目和锁相关</p>
+<h2 id="关于新项目"><a href="#关于新项目" class="headerlink" title="关于新项目"></a>关于新项目</h2><p>目前接手了一个新的项目（也不能说是新的，前一个人已经完成功能的开发，目前只是在原有的基础上进行重构）。今天在现有的设计文档进行重写，然后针对已有的字段进行数据库表字段的重新设计。</p>
+<h2 id="关于锁相关"><a href="#关于锁相关" class="headerlink" title="关于锁相关"></a>关于锁相关</h2><ul>
+<li><p>线程要不要锁住同步资源</p>
+<ul>
+<li><p>锁住：悲观锁</p>
+</li>
+<li><p>不锁住：乐观锁</p>
+<blockquote>
+<p>二者并不是值某两种类型的锁，而是定义出来的概念或思想（主要指<strong>看待并发同步角度</strong>）</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>锁住同步资源失败，线程要不要阻塞</p>
+<ul>
+<li>阻塞</li>
+<li>不阻塞<ul>
+<li>自旋锁（循环加锁—&gt; 等待）</li>
+<li>适应性自旋锁</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多个线程竞争同步资源的流程细节有没有区别</p>
+<ul>
+<li><strong>无锁</strong>：不锁住资源，多个线程只有一个能修改资源成功，其他线程会重试</li>
+<li><strong>偏向锁：</strong>同一个线程执行同步资源是自动获取资源</li>
+<li><strong>轻量级锁</strong>：多个线程竞争同步资源时，没有获取资源的线程自选等待锁释放</li>
+<li><strong>重量级锁</strong>： 多个线程竞争同步资源时，没有获取资源的线程阻塞等待唤醒</li>
+</ul>
+</li>
+<li><p>多个线程竞争是要不要插队</p>
+<ul>
+<li>排队：公平锁</li>
+<li>先尝试插队，插队失败再排队：非公平锁</li>
+</ul>
+</li>
+<li><p>一个线程中的多个流程能不能获取同一把锁</p>
+<ul>
+<li>能：可重入锁</li>
+<li>不能：不可重入锁</li>
+</ul>
+</li>
+<li><p>多个线程能不能共享一把锁</p>
+<ul>
+<li>能：共享锁</li>
+<li>不能：排它锁（独占锁）</li>
+</ul>
+</li>
+</ul>
+<p>PS：</p>
+<p>wait和sleep的区别：</p>
+<ul>
+<li><p>属于不同的类</p>
+</li>
+<li><p>释不释放锁</p>
+</li>
+<li><p>是否需要唤醒</p>
+</li>
+<li><p><strong>是否持有锁才执行</strong></p>
+<blockquote>
+<p>sleep可以在持有锁或者不持有锁时执行，wait方法必须只有锁时才可以执行</p>
+<p>深入到synchronized底层在objectMonitor方法中有owner字段，标记持有锁的线程，放入到waitSet（保存wait的线程信息）中。其中synchronized是基于对象实现的。Java对象中有一个对象头，其中有一个MarkWord字段会指向ObjectMonitor。</p>
+<p>所以wait方法会将尺有所的线程从owner放到WaitSet集合中，这个操作是在修改ObjectMonitor对象，如果没有持有synchronized锁，是无法操作ObjectMonitor对象的。</p>
+</blockquote>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -955,100 +1096,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/10/%E5%AE%9E%E4%B9%A0day18/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/07/%E5%AE%9E%E4%B9%A0day17/">实习day17</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/07/%E5%AE%9E%E4%B9%A0day17/" class="archive-article-date">
-  	<time datetime="2023-07-07T12:13:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一周总结</p>
-<p>周报</p>
-<p>本周工作：</p>
-<pre><code>1. 将项目进行重构，增加了域名扫描和专家库研判的需求。
-2. 将之前ip白名单的公共方法进行抽取，并且将需要的配置内容放置yml文件中，并增加一个枚举类，将不同类型的ioc进行细分。
-3. 新增异常类型表格和白名单表格，并根据不同逻辑进行记录。
-4. 完成将所有的异常类型进行告警，将少量数据直接发送至告警群组并添加详情表单连接，方便查看。
-</code></pre>
-<p>下周计划：<br>    1. 启动项目进行少量数据请求自测，检测各方面逻辑是否异常<br>    2. 将查询数据库，批量请求以及告警进行优化，提升服务性能</p>
-<p>bug修改：</p>
-<p>在springboot中的yml文件中配置了如下属性：<br>presto:<br>batch:<br>size: 1000<br>在某个类中，调用<br>在springboot中的yml文件中配置了如下属性：<br>@Value(“${presto.batch.size}”)<br>private static int defaultSize;<br>其中defaultSize显示为0。</p>
-<p>解决方法：</p>
-<p>解决这个问题的一种方式是将<code>@Value</code>注解放在非静态变量上。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;presto.batch.size&#125;&quot;) </span><br><span class="line">private int defaultSize; </span><br></pre></td></tr></table></figure>
-
-<p>这样就可以正确地注入配置属性的值。</p>
-<p>另外，如果确实需要在静态变量中使用注入的属性值，可以使用<code>@PostConstruct</code>注解，在Bean初始化完成后再将属性赋值给静态变量。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;presto.batch.size&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> defaultSize; </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> staticSize; </span><br><span class="line"><span class="meta">@PostConstruct</span> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;    </span><br><span class="line">	staticSize = defaultSize; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p><code>@PostConstruct</code>注解的方法会在Bean初始化完成后执行，此时可以将属性值赋给静态变量。</p>
-<p>值得注意的是，使用静态变量注入配置属性时，要确保在使用静态变量之前已经完成了注入，否则静态变量的值可能会是默认值。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/07/%E5%AE%9E%E4%B9%A0day17/">展开全文 >></a>
         </p>
       
 
