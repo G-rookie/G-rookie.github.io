@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>实习day24 | Hexo</title>
+  <title>实习day29 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于项目以及线程池 项目还是和昨天一样，继续看业务逻辑代码。 今天主要复习补充线程池相关知识。 线程池定义：线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK">
+  <meta name="description" content="学习原子类相关 原子类相关： 基本类型：   AtomicBoolean：布尔型 AtomicInteger：整型 AtomicLong：长整型   数组：   AtomicIntegerArray：数组里的整型 AtomicLongArray：数组里的长整型 AtomicReferenceArray：数组里的引用类型   引用类型：   AtomicReference：引用类型 AtomicSt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实习day24">
-<meta property="og:url" content="http://example.com/2023/07/18/%E5%AE%9E%E4%B9%A0day24/index.html">
+<meta property="og:title" content="实习day29">
+<meta property="og:url" content="http://example.com/2023/07/26/%E5%AE%9E%E4%B9%A0day29/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="关于项目以及线程池 项目还是和昨天一样，继续看业务逻辑代码。 今天主要复习补充线程池相关知识。 线程池定义：线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK">
+<meta property="og:description" content="学习原子类相关 原子类相关： 基本类型：   AtomicBoolean：布尔型 AtomicInteger：整型 AtomicLong：长整型   数组：   AtomicIntegerArray：数组里的整型 AtomicLongArray：数组里的长整型 AtomicReferenceArray：数组里的引用类型   引用类型：   AtomicReference：引用类型 AtomicSt">
 <meta property="og:locale">
-<meta property="article:published_time" content="2023-07-18T13:18:02.000Z">
-<meta property="article:modified_time" content="2023-07-18T14:08:36.278Z">
+<meta property="article:published_time" content="2023-07-26T11:08:52.000Z">
+<meta property="article:modified_time" content="2023-07-26T14:06:41.055Z">
 <meta property="article:author" content="布会划水の闲余">
+<meta property="article:tag" content="知识学习">
 <meta name="twitter:card" content="summary">
   
   
@@ -148,63 +149,74 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-实习day24" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-实习day29" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      实习day24
+      实习day29
     </h1>
   
 
         
-        <a href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" class="archive-article-date">
-  	<time datetime="2023-07-18T13:18:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-18</time>
+        <a href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/" class="archive-article-date">
+  	<time datetime="2023-07-26T11:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>关于项目以及线程池</p>
-<p>项目还是和昨天一样，继续看业务逻辑代码。</p>
-<p>今天主要复习补充线程池相关知识。</p>
-<h3 id="线程池定义："><a href="#线程池定义：" class="headerlink" title="线程池定义："></a><strong>线程池定义</strong>：</h3><p>线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK中也提供了Executors工厂类来创建线程池（不推荐使用）。</p>
-<p><strong>线程池的优点：</strong></p>
-<p><strong>降低资源消耗</strong>，复用已创建的线程来降低创建和销毁线程的消耗。</p>
-<p><strong>提高响应速度</strong>，任务到达时，可以不需要等待线程的创建立即执行。</p>
-<p><strong>提高线程的可管理性</strong>，使用线程池能够统一的分配、调优和监控。</p>
-<h3 id="为什么使用线程池？"><a href="#为什么使用线程池？" class="headerlink" title="为什么使用线程池？"></a><strong>为什么使用线程池？</strong></h3><p>创建线程的一些缺点：</p>
-<p>1）不受控制风险，对于每个创建的线程没有统一管理的地方，每个线程创建后我们不知道线程的去向。</p>
-<p>2）每执行一个任务都需要创建新的线程来执行，创建线程对系统来说开销很高</p>
-<h3 id="ThreadPoolExecutor的构造组成"><a href="#ThreadPoolExecutor的构造组成" class="headerlink" title="ThreadPoolExecutor的构造组成"></a><strong>ThreadPoolExecutor的构造组成</strong></h3><p><strong>corePoolSize</strong>，核心线程数量，决定是否创建新的线程来处理到来的任务</p>
-<p><strong>maximumPoolSize</strong>，最大线程数量，线程池中允许创建线程地最大数量</p>
-<p><strong>keepAliveTime</strong>，线程空闲时存活的时间</p>
-<p><strong>unit</strong>，空闲存活时间单位</p>
-<p><strong>workQueue</strong>，任务队列，用于存放已提交的任务</p>
-<p><strong>threadFactory</strong>，线程工厂，用于创建线程执行任务</p>
-<p><strong>handler</strong>，拒绝策略，当线程池处于饱和时，使用某种策略来拒绝任务提交</p>
-<h3 id="线程池地执行流程"><a href="#线程池地执行流程" class="headerlink" title="线程池地执行流程"></a><strong>线程池地执行流程</strong></h3><p>1）如果workerCount &lt; corePoolSize &#x3D;&#x3D;&gt; 创建线程执行提交的任务</p>
-<p>2）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; 阻塞队列未满 &#x3D;&#x3D;&gt; 添加至阻塞队列，等待后续线程来执行提交地任务</p>
-<p>3）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; workerCount &lt; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 创建非核心线程执行提交的任务</p>
-<p>4）如果workerCount &gt;&#x3D; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 执行拒绝策略</p>
-<h3 id="合理设置线程池参数"><a href="#合理设置线程池参数" class="headerlink" title="合理设置线程池参数"></a><strong>合理设置线程池参数</strong></h3><ul>
-<li>CPU 密集型任务(N+1)</li>
+        <p>学习原子类相关</p>
+<h3 id="原子类相关："><a href="#原子类相关：" class="headerlink" title="原子类相关："></a>原子类相关：</h3><ul>
+<li><p>基本类型：</p>
+</li>
+<li><ul>
+<li>AtomicBoolean：布尔型</li>
+<li>AtomicInteger：整型</li>
+<li>AtomicLong：长整型</li>
 </ul>
-<p>这种任务消耗的主要是 CPU 资源，可以将线程数设置为 N（CPU 核心数）+1，比 CPU 核心数多出来的一个线程是为了防止线程偶发的缺页中断，或者其它原因导致的任务暂停而带来的影响。一旦任务暂停，CPU 就会处于空闲状态，而在这种情况下多出来的一个线程就可以充分利用 CPU 的空闲时间。</p>
-<ul>
-<li>I&#x2F;O 密集型任务(2N)</li>
+</li>
+<li><p>数组：</p>
+</li>
+<li><ul>
+<li>AtomicIntegerArray：数组里的整型</li>
+<li>AtomicLongArray：数组里的长整型</li>
+<li>AtomicReferenceArray：数组里的引用类型</li>
 </ul>
-<p>这种任务应用起来，系统会用大部分的时间来处理 I&#x2F;O 交互，而线程在处理 I&#x2F;O 的时间段内不会占用 CPU 来处理，这时就可以将 CPU 交出给其它线程使用。因此在 I&#x2F;O 密集型任务的应用中，我们可以多配置一些线程，具体的计算方法是 2N。</p>
-<p><strong>如何判断是 CPU 密集任务还是 IO 密集任务</strong>？</p>
-<p>CPU 密集型简单理解就是利用 CPU 计算能力的任务比如你在内存中对大量数据进行排序。单凡涉及到网络读取，文件读取这类都是 IO 密集型，这类任务的特点是 CPU 计算耗费时间相比于等待 IO 操作完成的时间来说很少，大部分时间都花在了等待 IO 操作完成上。</p>
-<h3 id="使用线程池一些建议"><a href="#使用线程池一些建议" class="headerlink" title="使用线程池一些建议"></a>使用线程池一些建议</h3><p>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险</p>
-<p>Executors 返回的线程池对象的弊端： </p>
-<p>1） Excutors.fixedThreadPool(fixedPoolSize)和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 </p>
-<p>2） Excutors.cachedThreadPool() 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</p>
-<p>【建议】创建线程池的时候应该尽量给线程给个具体的业务名字前缀，方便定位问题。不同类型的业务任务尽量使用不同的线程池</p>
+</li>
+<li><p>引用类型：</p>
+</li>
+<li><ul>
+<li>AtomicReference：引用类型</li>
+<li>AtomicStampedReference：带有版本号的引用类型</li>
+<li>AtomicMarkableReference：带有标记位的引用类型</li>
+</ul>
+</li>
+<li><p>对象的属性：</p>
+</li>
+<li><ul>
+<li>AtomicIntegerFieldUpdater：对象的属性是整型</li>
+<li>AtomicLongFieldUpdater：对象的属性是长整型</li>
+<li>AtomicReferenceFieldUpdater：对象的属性是引用类型</li>
+</ul>
+</li>
+<li><p>JDK8新增DoubleAccumulator、LongAccumulator、DoubleAdder、LongAdder</p>
+</li>
+<li><ul>
+<li>是对AtomicLong等类的改进。比如LongAccumulator与LongAdder在高并发环境下比AtomicLong更高效。</li>
+</ul>
+</li>
+</ul>
+<p>Atomic包里的类基本都是使用<strong>Unsafe</strong>实现的包装类。</p>
+<p>Unsafe里边有几个方法(CAS)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一和第二个参数代表对象的实例以及地址，第三个参数代表期望值，第四个参数代表更新值</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapObject</span><span class="params">(Object var1, <span class="type">long</span> var2, Object var4, Object var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapInt</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">int</span> var4, <span class="type">int</span> var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapLong</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">long</span> var4, <span class="type">long</span> var6)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>从原理上概述就是：Atomic包的类的实现绝大调用Unsafe的方法，而Unsafe底层实际上调用C代码，C代码调用汇编，最后生成一条CPU执行cmpxchg，完成操作。（所以CAS是原子的，因为他是一条CPU指令，不会被打断）</p>
+<p>参考：</p>
+<p>[Java中Atomic变量的实现原理是怎样的—Java_3y的回答](<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/39130725/answer/1006948362">(2 封私信 &#x2F; 43 条消息) java中Atomic变量的实现原理是怎样的？ - 知乎 (zhihu.com)</a>)</p>
 
       
 
@@ -213,6 +225,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">知识学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -274,7 +297,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/07/26/%E5%AE%9E%E4%B9%A0day29/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -288,18 +311,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2023/07/19/%E5%AE%9E%E4%B9%A0day25/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          实习day25
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">实习day23</div>
+    <a href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day28</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -326,7 +340,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9A%E4%B9%89%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">线程池定义：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么使用线程池？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadPoolExecutor%E7%9A%84%E6%9E%84%E9%80%A0%E7%BB%84%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text">ThreadPoolExecutor的构造组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%9C%B0%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">线程池地执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%90%86%E8%AE%BE%E7%BD%AE%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">合理设置线程池参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE"><span class="toc-number">6.</span> <span class="toc-text">使用线程池一些建议</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9B%B8%E5%85%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">原子类相关：</span></a></li></ol>
                     </div>
                 </span>
             </div>

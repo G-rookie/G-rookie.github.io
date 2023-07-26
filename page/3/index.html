@@ -146,6 +146,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/">实习day9</a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/" class="archive-article-date">
+  	<time datetime="2023-06-26T13:36:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RPC和gRPC相关</p>
+<p>定义：</p>
+<p>RPC是一种远程控制，就是通过利用网络对计算机进行远程控制</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p><strong>工作模式不同（主要区别）</strong></p>
+<p>RPC主要采用的是客户端和服务端双向沟通的方式，在进行工作的时候RPC需要利用客户端发送信息到服务端，一旦信息被顺利传递，服务端就可以开始着手计算结果。</p>
+<p>gPRC可以直接通过客户端和服务端自动生成功能库，用户可以根据自己的需求来选择适合的模式。在GRPC模式中，客户端调用服务端的时候，借助客户端想服务端发送请求并得到响应，与响应一起发送的还有一些数据。</p>
+<p>gRPC是高性能的RPC框架</p>
+<p>gRPC实在http&#x2F;2协议标准设计的基础上开发的，gRPC默认的采用了数据序列的基础服务，为用户提供了一个非常方便的服务，就是可以让用户直接通过客户端和服务端来自动生成可以自由使用的功能库，对用户来说非常方便。</p>
+<p>PS：</p>
+<blockquote>
+<p>对于hexo上传到仓库时图片不显示问题，码一下：对于引用路径的时候得用”&#x2F;“不能用”\&quot;，后者转义失败</p>
+</blockquote>
+<p>工作中碰到的问题：</p>
+<p>今天查数据库，一张表有80W+数据，查了半天都没有结果，等了很长时间。起初是以为进行了分页，然后limit的数量少于where的条件数量。导致MySQL会有限执行order by + limit的部分，导致没有走索引，然后使用 force index强制执行联合索引。后面进行排查，然后用explain显示，就整了一个大无语事件，tmd竟然是userId用字符串进行存储，发生了隐式转换，导致没有走索引。（真不知道前人是怎么做到的，还能让我这个菜逼碰到）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1230,6 +1317,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">知识学习</a>
               </li>
             
             <div class="clearfix"></div>
