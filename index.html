@@ -146,6 +146,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day31" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/28/%E5%AE%9E%E4%B9%A0day31/">实习day31</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/28/%E5%AE%9E%E4%B9%A0day31/" class="archive-article-date">
+  	<time datetime="2023-07-28T13:54:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="关于项目完结"><a href="#关于项目完结" class="headerlink" title="关于项目完结"></a>关于项目完结</h3><p>今天将一个小的项目搞定。主要内容为：调用飞书的api，创建一个飞书机器人，从数据库中读取数据，然后用户发送指定命令，机器人根据命令进行相应的操作。</p>
+<p>严格来讲，主要就是调用接口，当发送查询命令，从数据库查询到数据，然后将表的数据转换成一个对应，然后获取对应的属性和对应的值，创建一个飞书卡片，然后将获得的值和属性一一对应，然后展现在卡片中即可。</p>
+<p><strong>总结</strong>：</p>
+<p>项目内容简单，但是具体细节需要加以考虑。比如查询多张表，如何将多张表的信息展现出来？是具体全部展示还是分批每张表进行展示（全部展示）。另外，由于每张表的字段、内容、数量都不相同，如何将最终获取的结果都进行整合（展示部分内容，数量和类型；要想知道更多内容，新增一个详细查询的方法，当发送详情时直接调用）。还有，在方法抽取的时候，当传入参数为一个对象时，如何获取到不同对象的属性和值（创建一个泛型方法）；获取对象属性值应该如何转换（尝试使用反射，但是反射不太好，所以转换思路，改用jsonObject类，将对应转换成此类，即可获取对应的key和value）。</p>
+<p><strong>PS</strong>：飞书卡片和机器人的调用，多看文档，逐步调试即可。（不懂的内容，先查官方文档，然后百度或者C网，然后github中的issue找，实在不行GPT）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/28/%E5%AE%9E%E4%B9%A0day31/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day30" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1077,82 +1155,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day21" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/">实习day21</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/" class="archive-article-date">
-  	<time datetime="2023-07-13T11:34:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目评审和最终优化</p>
-<h3 id="最终评审"><a href="#最终评审" class="headerlink" title="最终评审"></a>最终评审</h3><p>部门小组讨论之后，确定了最终项目的部署方案，另外对于压测和服务可用性的问题，其中对于域名级联的情况已经将数据量进行方法，所以对于压测没有必要，对于之前将所有的数据全部请求完成，之后再从文件中进行读取，这种方案暂时放弃，另外对于项目中可变的参数进行抽取，将数据量请求、分页请求、定时任务何时触发以及飞书告警数量等都配置在yml文件中。</p>
-<h3 id="补充优化"><a href="#补充优化" class="headerlink" title="补充优化"></a>补充优化</h3><p>目前为飞书测试文档增加了一个开关按钮，方便测试或自测调用。还有细化异常原因，将飞书卡片美化，内容更清晰易读。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/13/%E5%AE%9E%E4%B9%A0day21/">展开全文 >></a>
         </p>
       
 
