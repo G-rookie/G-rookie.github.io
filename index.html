@@ -146,6 +146,130 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day32" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/02/%E5%AE%9E%E4%B9%A0day32/">实习day32</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/02/%E5%AE%9E%E4%B9%A0day32/" class="archive-article-date">
+  	<time datetime="2023-08-02T11:57:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于新项目需求和注解</p>
+<p>目前根据设计文档开始怒狮的数据库表的设计，主要设计一张主表NS_pcap_judgement用于主要的研判，还有几张表是用于表中字段类型的扩展（来源、威胁类型、威胁标签、部门）。</p>
+<p>另外就是对于接口的开发，目前实现了删的接口。</p>
+<h3 id="关于写接口遇到的注解问题"><a href="#关于写接口遇到的注解问题" class="headerlink" title="关于写接口遇到的注解问题"></a>关于写接口遇到的注解问题</h3><p>@NotEmpty、@NotBlank和NotNull的区别</p>
+<p>主要的区别是：</p>
+<blockquote>
+<p>@NotEmpty 用在集合类上面</p>
+<p>@NotBlank 用在String上面</p>
+<p>@NotNull 用在基本类型上</p>
+</blockquote>
+<p>分别查看了相关的源码</p>
+<ol>
+<li><p>@NotEmpty</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Asserts that the annotated string, collection, map or array is not &#123;<span class="doctag">@code</span> null&#125; or empty.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> Emmanuel Bernard</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> Hardy Ferentschik</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>加了@NotEmpty的String类、Collection、Map、数组，是不能为null或者长度为零的（主要是String、Collection、Map的isEmpty（）方法）</p>
+</li>
+<li><p>@NotBlank</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Validate that the annotated string is not &#123;<span class="doctag">@code</span> null&#125; or empty.</span></span><br><span class="line"><span class="comment">* The difference to &#123;<span class="doctag">@code</span> NotEmpty&#125; is that trailing whitespaces are getting ignored.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> Hardy Ferentschik</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>和{@code NotEmpty}不同的是，尾部空格被忽略，也就是说，纯空格的String也是不符合规则的。所以才会说@NotBlank用于String。</p>
+</li>
+<li><p>@NotNull</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The annotated element must not be &#123;<span class="doctag">@code</span> null&#125;.</span></span><br><span class="line"><span class="comment">* Accepts any type.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> Emmanuel Bernard</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>字面意思，不能为空</p>
+</li>
+</ol>
+<p>PS：</p>
+<p>重新回顾了一下注解相关的知识， 顺便在网上看了一下相关的内容。</p>
+<p>注解作用：</p>
+<ul>
+<li>提供信息给编译器： 编译器可以利用注解来探测错误和警告信息</li>
+<li>编译阶段时的处理： 软件工具可以用来利用注解信息来生成代码、Html文档或者做其它相应处理。</li>
+<li>运行时的处理： 某些注解可以在程序运行的时候接受代码的提取</li>
+</ul>
+<p>值得注意的是，注解不是代码本身的一部分。</p>
+<p>官方文档的解释：注解主要针对的是编译器和其它工具软件(SoftWare tool)。</p>
+<p>当开发者使用了Annotation 修饰了类、方法、Field 等成员之后，这些 Annotation 不会自己生效，必须由开发者提供相应的代码来提取并处理 Annotation 信息。这些处理提取和处理 Annotation 的代码统称为 APT（Annotation Processing Tool)。</p>
+<p><strong>注解有什么用？给谁用？给 编译器或者 APT 用的。</strong></p>
+<p><strong>总结</strong>：</p>
+<ul>
+<li>如果注解难于理解，你就把它类同于标签，标签为了解释事物，注解为了解释代码。</li>
+<li>注解的基本语法，创建如同接口，但是多了个 @ 符号。</li>
+<li>注解的元注解。</li>
+<li>注解的属性。</li>
+<li>注解主要给编译器及工具类型的软件用的。</li>
+<li>注解的提取需要借助于 Java 的反射技术，反射比较慢，所以注解使用时也需要谨慎计较时间成本。</li>
+</ul>
+<p>参考：</p>
+<p>[java注解-最通俗易懂的讲解](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/37701743">java注解-最通俗易懂的讲解 - 知乎 (zhihu.com)</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/02/%E5%AE%9E%E4%B9%A0day32/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day31" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1073,88 +1197,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day22" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/">实习day22</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/" class="archive-article-date">
-  	<time datetime="2023-07-14T14:14:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>周总结</p>
-<p>本周工作：</p>
-<p>​    1. 调整presto数据库连接，优化查询性能</p>
-<p>​    2. 新增飞书表格数据源，开发对应接口方便测试数据提交魔龙云检测</p>
-<p>​    3. 将现有异常进行优化，细化异常告警范围，优化飞书告警卡片内容</p>
-<p>​    4. 调整开发文档部分内容，解答测试人员疑问</p>
-<p>​    5. 完成白名单扫描、异常告警项目的需求，并对项目进行总结</p>
-<p>下周计划：</p>
-<p>​    1. 蜥蜴管理平台新功能开发本周工作：</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/14/%E5%AE%9E%E4%B9%A0day22/">展开全文 >></a>
         </p>
       
 
