@@ -146,6 +146,113 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day23" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/">实习day23</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/" class="archive-article-date">
+  	<time datetime="2023-07-17T12:21:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于项目新进展和hash</p>
+<p>目前在熟悉新项目，关于nj和aws两个服务，主要看两个项目业务逻辑的代码，另外加上今天偶然间看到业务中用到的hash，关于hash算法相关概念进行补充。</p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>相关定义：Hashing通常翻译为散列、哈希。哈希是指使用一些函数或算法将对象数据映射到一些有代表性的整数值。这个所谓的哈希码(或简单的哈希)可以用来缩小我们在地图中寻找项目的搜索范围。通常，这些哈希码用于生成索引，值存储在索引中。</p>
+<p>哈希是一种用于尽可能快地存储和检索数据的流行技术。使用哈希的主要原因是它在执行最优搜索时给出最优结果。</p>
+<p>相关组件：</p>
+<ul>
+<li><p>哈希表：存储哈希值的数组。哈希表提供了一种功能，在这种功能中，数据集合以一种稍后在需要是很容易找到这些想的方式存储。（使得元素的搜素非常高效）</p>
+</li>
+<li><p>哈希函数：将给定的大特征数据转换为小的使用整数值的函数。映射的整数值用作哈希表的索引。（哈希函数用于给定的键转换为特定的槽索引）他的主要功能是将每个可能的键映射到唯一的槽索引中。</p>
+<blockquote>
+<p>一个号的哈希函数应该具有如下属性：</p>
+<ul>
+<li>有效的可计算的</li>
+<li>应该均匀地分部键（每个表位置对每个见得可能性相同）</li>
+<li>应尽量减少碰撞</li>
+<li>具有较低的负载因子</li>
+</ul>
+</blockquote>
+</li>
+<li><p>冲突处理：一个大的键可能产生两个键相同的值。</p>
+<blockquote>
+<p>处理方法：</p>
+<ul>
+<li>链接：使哈希表的每个单元指向具有相同哈希函数值的记录链表。链表很简单，但是需要额外的表外内存</li>
+<li>开放寻址：（线性探测法）从发生冲突的那个位置开始，按照一定的次序从哈希表中找到一个空闲的位置，然后把发生冲突的元素存入到这个空闲位置中。</li>
+<li>rehash：当通过某个hash函数计算的key存在冲突是，再用另外一个hash函数对这个key做hash，一直运算到不在产生冲突。（增加计算时间，性能影响较大）</li>
+<li>建立公共溢出区：把hash表分为基本表和溢出表两个部分，凡是存在冲突的元素，一律放入到溢出表中。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>参考：</p>
+<p><a href="%5B%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%88%E5%B8%8C(Hashing">简书—什么是hash</a>? - 简书 (jianshu.com)](<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a40e43cfd8f3">https://www.jianshu.com/p/a40e43cfd8f3</a>))</p>
+<p><a href="%5B%E5%93%88%E5%B8%8C(Hash">极客教程—hash完整教程</a>完整教程|极客教程 (geek-docs.com)](<a target="_blank" rel="noopener" href="https://geek-docs.com/algorithm/algo-ask-answer/what-is-hashing-a-complete-tutorial.html">https://geek-docs.com/algorithm/algo-ask-answer/what-is-hashing-a-complete-tutorial.html</a>))</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/17/%E5%AE%9E%E4%B9%A0day23/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day22" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -930,91 +1037,6 @@
 
 
   
-    <article id="post-实习day13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">实习day13</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" class="archive-article-date">
-  	<time datetime="2023-06-30T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>周总结</p>
-<h3 id="本周工作："><a href="#本周工作：" class="headerlink" title="本周工作："></a>本周工作：</h3><pre><code>1. 将原来魔龙云白名单自动检测设计文档内容进行细化，展现数据库请求，请求数据分页，调用魔龙云服务进行处理，并且根据返回状态码进行告警
-2. 完成presto数据库连接测试，向presto进行数据请求
-3. 完成魔龙云接口请求测试，将数据封装并请求魔龙云服务，并得到响应结果
-4. 根据开发设计文档进行开发，将内容进行逻辑串联，完成魔龙云白名单自动检测的开发需求
-</code></pre>
-<p>出现问题：</p>
-<p>SpringBoot中<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=RestTemplate&spm=1001.2101.3001.7020">RestTemplate</a>无法通过@Autowired注解实现自动注入。</p>
-<p>没有配置相关的bean，在配置类中注入以下内容即可</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>PS：需求基本搞定，目前还有点小bug需要进行相关处理，另外其中的一些细节需要进行细致化处理。比如请求和响应可以进行异步处理，另外分页查询数据库和将查询的数据封装成请求体可以使用多线程提高效率，另外还可以加个数据库的连接池，避免连接创建和销毁的开销，还有数据一次性请求的量的大小，适量而行，在数据库查询和服务请求去平衡。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1133,6 +1155,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">知识学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">手写RPC</a>
               </li>
             
             <div class="clearfix"></div>

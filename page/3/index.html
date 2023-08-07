@@ -146,6 +146,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">实习day13</a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" class="archive-article-date">
+  	<time datetime="2023-06-30T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>周总结</p>
+<h3 id="本周工作："><a href="#本周工作：" class="headerlink" title="本周工作："></a>本周工作：</h3><pre><code>1. 将原来魔龙云白名单自动检测设计文档内容进行细化，展现数据库请求，请求数据分页，调用魔龙云服务进行处理，并且根据返回状态码进行告警
+2. 完成presto数据库连接测试，向presto进行数据请求
+3. 完成魔龙云接口请求测试，将数据封装并请求魔龙云服务，并得到响应结果
+4. 根据开发设计文档进行开发，将内容进行逻辑串联，完成魔龙云白名单自动检测的开发需求
+</code></pre>
+<p>出现问题：</p>
+<p>SpringBoot中<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=RestTemplate&spm=1001.2101.3001.7020">RestTemplate</a>无法通过@Autowired注解实现自动注入。</p>
+<p>没有配置相关的bean，在配置类中注入以下内容即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>PS：需求基本搞定，目前还有点小bug需要进行相关处理，另外其中的一些细节需要进行细致化处理。比如请求和响应可以进行异步处理，另外分页查询数据库和将查询的数据封装成请求体可以使用多线程提高效率，另外还可以加个数据库的连接池，避免连接创建和销毁的开销，还有数据一次性请求的量的大小，适量而行，在数据库查询和服务请求去平衡。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day12" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1079,108 +1164,6 @@
 
 
   
-    <article id="post-实习day3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/">实习day3</a>
-    </h1>
-  
-
-        
-        <a href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/" class="archive-article-date">
-  	<time datetime="2023-06-15T12:10:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目XES</p>
-<h3 id="工作项"><a href="#工作项" class="headerlink" title="工作项"></a>工作项</h3><p>魔龙云扫描完善测试用例，通过全量白名单，简历自动化测试daily运行机制，增加飞书告警</p>
-<p>关键点：</p>
-<ul>
-<li>魔龙云调用</li>
-<li>白名单库</li>
-<li>自动化测试</li>
-<li>飞书告警</li>
-</ul>
-<p>根据以上画出相关流程图：</p>
-<p><img src="/..%5Cimg%5C%E6%B5%81%E7%A8%8B%E5%9B%BE.png"></p>
-<p>出现问题：想的过于复杂</p>
-<p>真实情况为：白名单调用魔龙云服务，根据返回的结果做出不同的处理方式。</p>
-<blockquote>
-<p>未命中：调用飞书接口，发出告警</p>
-<p>命中：返回成功状态码</p>
-</blockquote>
-<p>至于自动化测试情况：制定一个定时任务，目前不需要开发考虑。后续运维做相关处理。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">需求</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/06/15/%E5%AE%9E%E4%B9%A0day3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1299,6 +1282,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">知识学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">手写RPC</a>
               </li>
             
             <div class="clearfix"></div>
