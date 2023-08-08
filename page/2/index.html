@@ -146,6 +146,116 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day24" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/">实习day24</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" class="archive-article-date">
+  	<time datetime="2023-07-18T13:18:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于项目以及线程池</p>
+<p>项目还是和昨天一样，继续看业务逻辑代码。</p>
+<p>今天主要复习补充线程池相关知识。</p>
+<h3 id="线程池定义："><a href="#线程池定义：" class="headerlink" title="线程池定义："></a><strong>线程池定义</strong>：</h3><p>线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK中也提供了Executors工厂类来创建线程池（不推荐使用）。</p>
+<p><strong>线程池的优点：</strong></p>
+<p><strong>降低资源消耗</strong>，复用已创建的线程来降低创建和销毁线程的消耗。</p>
+<p><strong>提高响应速度</strong>，任务到达时，可以不需要等待线程的创建立即执行。</p>
+<p><strong>提高线程的可管理性</strong>，使用线程池能够统一的分配、调优和监控。</p>
+<h3 id="为什么使用线程池？"><a href="#为什么使用线程池？" class="headerlink" title="为什么使用线程池？"></a><strong>为什么使用线程池？</strong></h3><p>创建线程的一些缺点：</p>
+<p>1）不受控制风险，对于每个创建的线程没有统一管理的地方，每个线程创建后我们不知道线程的去向。</p>
+<p>2）每执行一个任务都需要创建新的线程来执行，创建线程对系统来说开销很高</p>
+<h3 id="ThreadPoolExecutor的构造组成"><a href="#ThreadPoolExecutor的构造组成" class="headerlink" title="ThreadPoolExecutor的构造组成"></a><strong>ThreadPoolExecutor的构造组成</strong></h3><p><strong>corePoolSize</strong>，核心线程数量，决定是否创建新的线程来处理到来的任务</p>
+<p><strong>maximumPoolSize</strong>，最大线程数量，线程池中允许创建线程地最大数量</p>
+<p><strong>keepAliveTime</strong>，线程空闲时存活的时间</p>
+<p><strong>unit</strong>，空闲存活时间单位</p>
+<p><strong>workQueue</strong>，任务队列，用于存放已提交的任务</p>
+<p><strong>threadFactory</strong>，线程工厂，用于创建线程执行任务</p>
+<p><strong>handler</strong>，拒绝策略，当线程池处于饱和时，使用某种策略来拒绝任务提交</p>
+<h3 id="线程池地执行流程"><a href="#线程池地执行流程" class="headerlink" title="线程池地执行流程"></a><strong>线程池地执行流程</strong></h3><p>1）如果workerCount &lt; corePoolSize &#x3D;&#x3D;&gt; 创建线程执行提交的任务</p>
+<p>2）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; 阻塞队列未满 &#x3D;&#x3D;&gt; 添加至阻塞队列，等待后续线程来执行提交地任务</p>
+<p>3）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; workerCount &lt; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 创建非核心线程执行提交的任务</p>
+<p>4）如果workerCount &gt;&#x3D; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 执行拒绝策略</p>
+<h3 id="合理设置线程池参数"><a href="#合理设置线程池参数" class="headerlink" title="合理设置线程池参数"></a><strong>合理设置线程池参数</strong></h3><ul>
+<li>CPU 密集型任务(N+1)</li>
+</ul>
+<p>这种任务消耗的主要是 CPU 资源，可以将线程数设置为 N（CPU 核心数）+1，比 CPU 核心数多出来的一个线程是为了防止线程偶发的缺页中断，或者其它原因导致的任务暂停而带来的影响。一旦任务暂停，CPU 就会处于空闲状态，而在这种情况下多出来的一个线程就可以充分利用 CPU 的空闲时间。</p>
+<ul>
+<li>I&#x2F;O 密集型任务(2N)</li>
+</ul>
+<p>这种任务应用起来，系统会用大部分的时间来处理 I&#x2F;O 交互，而线程在处理 I&#x2F;O 的时间段内不会占用 CPU 来处理，这时就可以将 CPU 交出给其它线程使用。因此在 I&#x2F;O 密集型任务的应用中，我们可以多配置一些线程，具体的计算方法是 2N。</p>
+<p><strong>如何判断是 CPU 密集任务还是 IO 密集任务</strong>？</p>
+<p>CPU 密集型简单理解就是利用 CPU 计算能力的任务比如你在内存中对大量数据进行排序。单凡涉及到网络读取，文件读取这类都是 IO 密集型，这类任务的特点是 CPU 计算耗费时间相比于等待 IO 操作完成的时间来说很少，大部分时间都花在了等待 IO 操作完成上。</p>
+<h3 id="使用线程池一些建议"><a href="#使用线程池一些建议" class="headerlink" title="使用线程池一些建议"></a>使用线程池一些建议</h3><p>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险</p>
+<p>Executors 返回的线程池对象的弊端： </p>
+<p>1） Excutors.fixedThreadPool(fixedPoolSize)和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 </p>
+<p>2） Excutors.cachedThreadPool() 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</p>
+<p>【建议】创建线程池的时候应该尽量给线程给个具体的业务名字前缀，方便定位问题。不同类型的业务任务尽量使用不同的线程池</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day23" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -910,104 +1020,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/">实习day14</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/" class="archive-article-date">
-  	<time datetime="2023-07-04T11:43:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于需求评审和项目优化相关</p>
-<h3 id="对于项目优化"><a href="#对于项目优化" class="headerlink" title="对于项目优化"></a>对于项目优化</h3><p>整个项目逻辑已经完全开发完成。目前存在或者说可以优化的一些方面包括：优化数据库连接，增加相应的代码注释，优化数据请求，服务请求和数据库查询异步解耦以及丰富具体告警日志</p>
-<ul>
-<li><p>对于数据库的查询其中需要的批次请求，频繁的请求数据库进行多次的IO造成性能下降。</p>
-<blockquote>
-<p>优化方法：增加了数据库连接池，避免频繁多次请求数据库，造成资源开销</p>
-<p>（另外由于频繁请求，想先将数据进行请求到内存，然后基于该list进行分页或者说批量请求。但是考虑到数据量的规模，以及往后数据的增长性，该方法不可行）</p>
-</blockquote>
-</li>
-<li><p>对于服务请求和数据库查询</p>
-<blockquote>
-<p>本项目中使用的是同步请求，需要先将数据完全请求完毕，然后再将数据封装成单个请求体，请求服务，得到响应结果</p>
-<p>优化方法：将数据库查询和数据请求分开，进行异步发送。</p>
-</blockquote>
-</li>
-<li><p>对于告警日志</p>
-<blockquote>
-<p>对于告警，目前只有在控制台进行日志打印</p>
-<p>优化方法：将不同的错误类型进行枚举，然后根据不同类型的错误进行归档，然后进行追踪，可以根据不同类型进行排查。</p>
-<p>（系统链路过长，出现问题不好追踪，设计了错误码（做了一个错误码的分类，做了错误级别、错误类型、错误场景、错误编码）；其目的规范应用错误的传递，保证错误的可追溯，去减少定位的问题）</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="对于会议评审"><a href="#对于会议评审" class="headerlink" title="对于会议评审"></a>对于会议评审</h3><p>对于开发文档做了相应的修改，具体到某些细节的分析：数据请求，服务请求，告警处理。</p>
-<p>添加某些测试用例，方便测试人员的测试。解答测试人员的疑问点，以及开发完成后面是否需要做补充和扩展。另外添加会议纪要。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/">展开全文 >></a>
         </p>
       
 

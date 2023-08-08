@@ -146,6 +146,136 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day34" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/08/%E5%AE%9E%E4%B9%A0day34/">实习day34</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/08/%E5%AE%9E%E4%B9%A0day34/" class="archive-article-date">
+  	<time datetime="2023-08-08T14:00:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于手写RPC</p>
+<h3 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h3><p>实现方式：</p>
+<ul>
+<li><p>内存映射（mmap+write）</p>
+<blockquote>
+<p>mmap是linux提供的一种内存映射文件方法，即<strong>将一个进程的地址空间中的一段虚拟地址映射到磁盘文件地址</strong></p>
+<p>主要实现方式是将<strong>读缓冲区的地址和用户缓冲区的地址进行映射，内核缓冲区和应用缓冲区共享</strong></p>
+</blockquote>
+</li>
+<li><p>sendfile</p>
+<blockquote>
+<p>通过使用 sendfile 函数，数据可以直接在内核空间进行传输，因此避免了用户空间和内核空间的拷贝，同时由于<br>使用sendfile替代了read+write从而节省了一次系统调用，也就是2次上下文切换  </p>
+<p>sendfile方法IO数据对用户空间完全不可见，所以<strong>只能适用于完全不需要用户空间处理的情况</strong>，比如静态文件服务器。</p>
+<p>sendfile 只适用于把数据从磁盘中读出来往 socket buffer 发送的场景  </p>
+</blockquote>
+</li>
+<li><p>sendfile+DMA scatter&#x2F;gather  </p>
+<blockquote>
+<p>Linux2.4内核版本之后对sendfile做了进一步优化，通过引入新的硬件支持，这个方式叫做DMA Scatter&#x2F;Gather 分<br>散&#x2F;收集功能。</p>
+<p>它将读缓冲区中的数据描述信息–内存地址和偏移量记录到socket缓冲区，由 DMA 根据这些将数据从读缓冲区拷贝<br>到网卡，相比之前版本减少了一次CPU拷贝的过程  </p>
+<p>**DMA gather和sendfile一样数据对用户空间不可见，而且需要硬件支持，同时输入文件描述符只能是文件，但是过<br>程中完全没有CPU拷贝过程，极大提升了性能。  **</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>总结</strong>：</p>
+<ul>
+<li><p>由于CPU和IO速度的差异问题，产生了DMA技术，通过DMA搬运来减少CPU的等待时间。</p>
+</li>
+<li><p>传统的 IO read&#x2F;write 方式会产生2次DMA拷贝+2次CPU拷贝，同时有4次上下文切换。</p>
+</li>
+<li><p>而通过 mmap+write 方式则产生2次DMA拷贝+1次CPU拷贝，4次上下文切换，通过内存映射减少了一次CPU<br>拷贝，可以减少内存使用，适合大文件的传输。</p>
+</li>
+<li><p>sendfile 方式是新增的一个系统调用函数，产生2次DMA拷贝+1次CPU拷贝，但是只有2次上下文切换。因<br>为只有一次调用，减少了上下文的切换，但是用户空间对IO数据不可见，适用于静态文件服务器。</p>
+</li>
+<li><p>sendfile+DMA gather 方式产生2次DMA拷贝，没有CPU拷贝，而且也只有2次上下文切换。虽然极大地提<br>升了性能，但是需要依赖新的硬件设备支持。</p>
+</li>
+</ul>
+<h3 id="Netty-框架："><a href="#Netty-框架：" class="headerlink" title="Netty 框架："></a><strong>Netty 框架：</strong></h3><p>Netty 的零拷贝主要体现在下面五个方面：</p>
+<p>（1）在网络通信上，Netty 的接收和发送 ByteBuffer 采用直接内存，使用堆外直接内存进行 Socket 读写，不需要进行字节缓冲区的二次拷贝。如果使用传统的堆内存进行 Socket 读写，JVM 会将堆内存 Buffer 拷贝一份到直接内存中（为什么拷贝？因为 JVM 会发生 GC 垃圾回收，数据的内存地址会发生变化，直接将堆内的内存地址传给内核，内存地址一旦变了就内核读不到数据了），然后才写入 Socket 中。相比于堆外直接内存，消息在发送过程中多了一次缓冲区的内存拷贝。</p>
+<p>（2）在文件传输上，Netty 的通过 FileRegion 包装的 FileChannel.tranferTo 实现文件传输，它可以直接将文件缓冲区的数据发送到目标 Channel，避免了传统通过循环 write 方式导致的内存拷贝问题。</p>
+<p>（3）在缓存操作上，Netty 提供了CompositeByteBuf 类，它可以将多个 ByteBuf 合并为一个逻辑上的 ByteBuf，避免了各个 ByteBuf 之间的拷贝。</p>
+<p>（4）通过 wrap 操作，我们可以将byte[]数组、ByteBuf、ByteBuffer等包装成一个Netty ByteBuf对象，进而避免了拷贝操作。</p>
+<p>（5）ByteBuf 支持 slice 操作，因此可以将 ByteBuf 分解为多个共享同一个存储区域的 ByteBuf，避免了内存的拷贝。</p>
+<p>参考：</p>
+<p>[Java中的零拷贝](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78869158">Java中的零拷贝 - 知乎 (zhihu.com)</a>)</p>
+<p>[Java IO：什么是零拷贝](<a target="_blank" rel="noopener" href="https://blog.csdn.net/a745233700/article/details/122660332">Java IO篇：什么是零拷贝？_io零拷贝_张维鹏的博客-CSDN博客</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">手写RPC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/08/%E5%AE%9E%E4%B9%A0day34/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day33" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1076,116 +1206,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/19/%E5%AE%9E%E4%B9%A0day25/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day24" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/">实习day24</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/" class="archive-article-date">
-  	<time datetime="2023-07-18T13:18:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目以及线程池</p>
-<p>项目还是和昨天一样，继续看业务逻辑代码。</p>
-<p>今天主要复习补充线程池相关知识。</p>
-<h3 id="线程池定义："><a href="#线程池定义：" class="headerlink" title="线程池定义："></a><strong>线程池定义</strong>：</h3><p>线程池是一种利用池化技术思想来实现的线程管理技术，主要是为了复用线程、便利地管理线程和任务、并将线程的创建和任务的执行解耦开来。我们可以创建线程池来复用已经创建的线程来降低频繁创建和销毁线程所带来的资源消耗。在JAVA中主要是使用ThreadPoolExecutor类来创建线程池，并且JDK中也提供了Executors工厂类来创建线程池（不推荐使用）。</p>
-<p><strong>线程池的优点：</strong></p>
-<p><strong>降低资源消耗</strong>，复用已创建的线程来降低创建和销毁线程的消耗。</p>
-<p><strong>提高响应速度</strong>，任务到达时，可以不需要等待线程的创建立即执行。</p>
-<p><strong>提高线程的可管理性</strong>，使用线程池能够统一的分配、调优和监控。</p>
-<h3 id="为什么使用线程池？"><a href="#为什么使用线程池？" class="headerlink" title="为什么使用线程池？"></a><strong>为什么使用线程池？</strong></h3><p>创建线程的一些缺点：</p>
-<p>1）不受控制风险，对于每个创建的线程没有统一管理的地方，每个线程创建后我们不知道线程的去向。</p>
-<p>2）每执行一个任务都需要创建新的线程来执行，创建线程对系统来说开销很高</p>
-<h3 id="ThreadPoolExecutor的构造组成"><a href="#ThreadPoolExecutor的构造组成" class="headerlink" title="ThreadPoolExecutor的构造组成"></a><strong>ThreadPoolExecutor的构造组成</strong></h3><p><strong>corePoolSize</strong>，核心线程数量，决定是否创建新的线程来处理到来的任务</p>
-<p><strong>maximumPoolSize</strong>，最大线程数量，线程池中允许创建线程地最大数量</p>
-<p><strong>keepAliveTime</strong>，线程空闲时存活的时间</p>
-<p><strong>unit</strong>，空闲存活时间单位</p>
-<p><strong>workQueue</strong>，任务队列，用于存放已提交的任务</p>
-<p><strong>threadFactory</strong>，线程工厂，用于创建线程执行任务</p>
-<p><strong>handler</strong>，拒绝策略，当线程池处于饱和时，使用某种策略来拒绝任务提交</p>
-<h3 id="线程池地执行流程"><a href="#线程池地执行流程" class="headerlink" title="线程池地执行流程"></a><strong>线程池地执行流程</strong></h3><p>1）如果workerCount &lt; corePoolSize &#x3D;&#x3D;&gt; 创建线程执行提交的任务</p>
-<p>2）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; 阻塞队列未满 &#x3D;&#x3D;&gt; 添加至阻塞队列，等待后续线程来执行提交地任务</p>
-<p>3）如果workerCount &gt;&#x3D; corePoolSize &amp;&amp; workerCount &lt; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 创建非核心线程执行提交的任务</p>
-<p>4）如果workerCount &gt;&#x3D; maxinumPoolSize &amp;&amp; 阻塞队列已满 &#x3D;&#x3D;&gt; 执行拒绝策略</p>
-<h3 id="合理设置线程池参数"><a href="#合理设置线程池参数" class="headerlink" title="合理设置线程池参数"></a><strong>合理设置线程池参数</strong></h3><ul>
-<li>CPU 密集型任务(N+1)</li>
-</ul>
-<p>这种任务消耗的主要是 CPU 资源，可以将线程数设置为 N（CPU 核心数）+1，比 CPU 核心数多出来的一个线程是为了防止线程偶发的缺页中断，或者其它原因导致的任务暂停而带来的影响。一旦任务暂停，CPU 就会处于空闲状态，而在这种情况下多出来的一个线程就可以充分利用 CPU 的空闲时间。</p>
-<ul>
-<li>I&#x2F;O 密集型任务(2N)</li>
-</ul>
-<p>这种任务应用起来，系统会用大部分的时间来处理 I&#x2F;O 交互，而线程在处理 I&#x2F;O 的时间段内不会占用 CPU 来处理，这时就可以将 CPU 交出给其它线程使用。因此在 I&#x2F;O 密集型任务的应用中，我们可以多配置一些线程，具体的计算方法是 2N。</p>
-<p><strong>如何判断是 CPU 密集任务还是 IO 密集任务</strong>？</p>
-<p>CPU 密集型简单理解就是利用 CPU 计算能力的任务比如你在内存中对大量数据进行排序。单凡涉及到网络读取，文件读取这类都是 IO 密集型，这类任务的特点是 CPU 计算耗费时间相比于等待 IO 操作完成的时间来说很少，大部分时间都花在了等待 IO 操作完成上。</p>
-<h3 id="使用线程池一些建议"><a href="#使用线程池一些建议" class="headerlink" title="使用线程池一些建议"></a>使用线程池一些建议</h3><p>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险</p>
-<p>Executors 返回的线程池对象的弊端： </p>
-<p>1） Excutors.fixedThreadPool(fixedPoolSize)和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 </p>
-<p>2） Excutors.cachedThreadPool() 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</p>
-<p>【建议】创建线程池的时候应该尽量给线程给个具体的业务名字前缀，方便定位问题。不同类型的业务任务尽量使用不同的线程池</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/18/%E5%AE%9E%E4%B9%A0day24/">展开全文 >></a>
         </p>
       
 
