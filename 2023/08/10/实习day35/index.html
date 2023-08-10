@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Category: Java后端 | Hexo</title>
+  <title>实习day35 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/categories/Java%E5%90%8E%E7%AB%AF/page/3/index.html">
+  <meta name="description" content="关于项目和手写RPC 关于项目昨天晚上白名单扫描群中调用魔龙云的接口一直无法访问和使用，该接口时基于gRPC协议进行通信，先是确定了网络正常，然后重启应用时短暂过后依旧无法访问，为了保证程序正常运行，先将魔龙云正常回滚了，然后开始问题排查。 先找到相关的系统日志，根据日志信息得出是内存问题。导出dump文件后开始用MAT（Memory Analyzer Tool）工具分析文件。另外好像每次OOM的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实习day35">
+<meta property="og:url" content="http://example.com/2023/08/10/%E5%AE%9E%E4%B9%A0day35/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于项目和手写RPC 关于项目昨天晚上白名单扫描群中调用魔龙云的接口一直无法访问和使用，该接口时基于gRPC协议进行通信，先是确定了网络正常，然后重启应用时短暂过后依旧无法访问，为了保证程序正常运行，先将魔龙云正常回滚了，然后开始问题排查。 先找到相关的系统日志，根据日志信息得出是内存问题。导出dump文件后开始用MAT（Memory Analyzer Tool）工具分析文件。另外好像每次OOM的">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/img/netty%E5%B7%A5%E4%BD%9C%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="article:published_time" content="2023-08-10T11:45:35.000Z">
+<meta property="article:modified_time" content="2023-08-10T13:26:24.692Z">
 <meta property="article:author" content="布会划水の闲余">
+<meta property="article:tag" content="手写RPC">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/netty%E5%B7%A5%E4%BD%9C%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -144,390 +151,95 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-实习day35" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      实习day35
+    </h1>
+  
+
+        
+        <a href="/2023/08/10/%E5%AE%9E%E4%B9%A0day35/" class="archive-article-date">
+  	<time datetime="2023-08-10T11:45:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-10</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于项目和手写RPC</p>
+<h3 id="关于项目"><a href="#关于项目" class="headerlink" title="关于项目"></a>关于项目</h3><p>昨天晚上白名单扫描群中调用魔龙云的接口一直无法访问和使用，该接口时基于gRPC协议进行通信，先是确定了网络正常，然后重启应用时短暂过后依旧无法访问，为了保证程序正常运行，先将魔龙云正常回滚了，然后开始问题排查。</p>
+<p>先找到相关的系统日志，根据日志信息得出是内存问题。导出dump文件后开始用MAT（Memory Analyzer Tool）工具分析文件。另外好像每次OOM的位置都不一样。但是日志已经明确提示了是<code>java.lang.OutOfMemoryError: Java heap space</code>是堆内存的问题。可能的问题有：</p>
+<ul>
+<li><p>内存加载数据量过大</p>
+<blockquote>
+<p>比如不受行限制的sql查询语句，不限制字节流文件的读取</p>
+</blockquote>
+</li>
+<li><p>内存泄露</p>
+<blockquote>
+<p>比如大量没有关闭的IO资源错误使用ThreadLocal等</p>
+</blockquote>
+</li>
+<li><p>内存系统不足</p>
+<blockquote>
+<p>系统内存不足以支撑当前业务场景所需要的内存，过小的及其内存或者不合理的JVM内存参数</p>
+</blockquote>
+</li>
+</ul>
+<p>第一点和第二点都经过排查没有问题，然后是最不可能的第三点，然后就发现了一个大无语的问题。两次参数的设置不一致</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//第一次</span><br><span class="line">-Xms8g -Xmx8g -Xmn3g</span><br><span class="line">//第二次</span><br><span class="line">-Xms8g -Xmx8g -Xmn8g</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-Xms：设置对的最大内存</p>
+<p>-Xmx：设置对的初始内存大小</p>
+<p>-Xmn：设置年轻代大小</p>
+</blockquote>
+<p>最后虽然不是我检查出来的，但是相关的事故还是涨了不少见识</p>
+<p>反思一下问题：</p>
+<p>堆空间 &#x3D; 年轻代 + 老年代</p>
+<p>当年轻代空间满后，存活时间长的对象会优先进入老年代，当老年代空间不足时，会发生full GC；出发full GC之后又会出现两种问题：</p>
+<ol>
+<li>young区腾出部分空间，对象可以存放</li>
+<li>young区不够，放入old区，old不够，OOM</li>
+</ol>
+<h3 id="手写RPC"><a href="#手写RPC" class="headerlink" title="手写RPC"></a>手写RPC</h3><p>了解netty基本工作流程，其中相关组件为：</p>
+<ul>
+<li>ServerBootstrap：服务器端启动辅助对象；</li>
+<li>Bootstrap：客户端启动辅助对象；</li>
+<li>Channel：通道，代表一个连接，每个Client请对会对应到具体的一个Channel；</li>
+<li>ChannelPipeline：责任链，每个Channel都有且仅有一个ChannelPipeline与之对应，里面是各种各样的<br>Handler；</li>
+<li>handler：用于处理出入站消息及相应的事件，实现我们自己要的业务逻辑；</li>
+<li>EventLoopGroup：I&#x2F;O线程池，负责处理Channel对应的I&#x2F;O事件；</li>
+<li>ChannelInitializer：Channel初始化器；</li>
+<li>ChannelFuture：代表I&#x2F;O操作的执行结果，通过事件机制，获取执行结果，通过添加监听器，执行我们想要<br>的操作；</li>
+<li>ByteBuf：字节序列，通过ByteBuf操作基础的字节数组和缓冲区。</li>
+</ul>
+<p><img src="/../img/netty%E5%B7%A5%E4%BD%9C%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="image-20230810212033045"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/" class="archive-article-date">
-  	<time datetime="2023-07-05T11:50:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/07/05/%E5%AE%9E%E4%B9%A0day15/">实习day15</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/" class="archive-article-date">
-  	<time datetime="2023-07-04T11:43:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/07/04/%E5%AE%9E%E4%B9%A0day14/">实习day14</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/" class="archive-article-date">
-  	<time datetime="2023-06-30T12:07:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/30/%E5%AE%9E%E4%B9%A0day13/">实习day13</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/" class="archive-article-date">
-  	<time datetime="2023-06-28T11:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/28/%E5%AE%9E%E4%B9%A0day11/">实习day11</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/" class="archive-article-date">
-  	<time datetime="2023-06-26T13:36:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/26/%E5%AE%9E%E4%B9%A0day9/">实习day9</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/" class="archive-article-date">
-  	<time datetime="2023-06-25T13:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/25/%E5%AE%9E%E4%B9%A0day8/">实习day8</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/" class="archive-article-date">
-  	<time datetime="2023-06-21T12:29:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/21/%E5%AE%9E%E4%B9%A0day7/">实习day7</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/" class="archive-article-date">
-  	<time datetime="2023-06-20T13:32:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/20/%E5%AE%9E%E4%B9%A0day6/">实习day6</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/" class="archive-article-date">
-  	<time datetime="2023-06-19T13:19:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/19/%E5%AE%9E%E4%B9%A0day5/">实习day5</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/17/day4/" class="archive-article-date">
-  	<time datetime="2023-06-17T09:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/17/day4/">day4</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">手写RPC</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -540,20 +252,116 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2023/08/10/%E5%AE%9E%E4%B9%A0day35/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2023/08/08/%E5%AE%9E%E4%B9%A0day34/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">实习day34</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">关于项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%86%99RPC"><span class="toc-number">2.</span> <span class="toc-text">手写RPC</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/categories/Java%E5%90%8E%E7%AB%AF/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/categories/Java%E5%90%8E%E7%AB%AF/">1</a><a class="page-number" href="/categories/Java%E5%90%8E%E7%AB%AF/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/categories/Java%E5%90%8E%E7%AB%AF/page/4/">4</a><a class="extend next" rel="next" href="/categories/Java%E5%90%8E%E7%AB%AF/page/4/">Next &amp;raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -577,10 +385,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
