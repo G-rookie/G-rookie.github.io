@@ -146,6 +146,131 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习dayEnd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/15/%E5%AE%9E%E4%B9%A0dayEnd/">实习dayEnd</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/15/%E5%AE%9E%E4%B9%A0dayEnd/" class="archive-article-date">
+  	<time datetime="2023-08-15T13:57:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于实习完结和手写RPC</p>
+<h2 id="实习完结"><a href="#实习完结" class="headerlink" title="实习完结"></a>实习完结</h2><p>到今天为止，结束了为期两个多月的实习生涯，学到了很多东西，也能够把自己学到的东西运用到实际生产中，除了最基础的curd，还有很多平时未曾接触的东西，慢慢总结，提炼到简历当中。</p>
+<h2 id="手写RPC"><a href="#手写RPC" class="headerlink" title="手写RPC"></a>手写RPC</h2><p>今天主要补充一下未曾接触到的新东西<code>zooKeeper</code></p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li><p>概念：ZooKeeper是一个开源的<strong>分布式协调服务组件</strong>，用于构建可靠的分布式系统。它提供了一个高性<br>能的、有序的、可靠的分布式数据存储和协调服务，简单的理解为一个内存数据库，特殊的数据结构和一些<br>特性，他可以实现一些特殊的功能  </p>
+</li>
+<li><p>应用场景：在分布式系统中我们经常使用ZooKeeper实现<strong>服务注册发现、分布式锁、配置管理、命名服务和<br>分布式协调</strong>等功能</p>
+</li>
+<li><p>数据模型：ZooKeeper的数据模型是一个类似于<strong>文件系统的层次结构</strong>。每个节点称为ZNode，它可以存储数<br>据和子节点。zookeeper中的ZNode可以分为持久节点和临时节点  </p>
+</li>
+<li><p>Watcher机制：ZooKeeper允许开发人员在节点上设置监视点，以便在节点发生更改时接收通知</p>
+</li>
+</ul>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><p>ZooKeeper的数据模型是一个类似于<strong>文件系统的层次结构，</strong>被组织成一个树形结构，每个节点称为ZNode。<br>ZNode是ZooKeeper中的基本数据单元，它可以存储<strong>数据和子节点</strong>  </p>
+<p><strong>详细说明：</strong></p>
+<ol>
+<li>树形结构：<br>ZooKeeper的数据模型是一个树形结构，类似于文件系统的目录结构。整个树由根节点（称为”&#x2F;“）开始，每<br>个节点可以有多个子节点。<br>每个节点都<strong>有一个路径来唯一标识它</strong>，路径是由斜杠（&#x2F;）分隔的一系列名称组成。</li>
+<li>ZNode：<br>ZNode是ZooKeeper的<strong>基本数据单元</strong>，类似于文件系统中的文件或目录。<br>每个ZNode可以<strong>存储一个字节数组作为其数据，可以是任意类型的数据，例如配置信息、状态信息等</strong>。<br>每个ZNode还可以<strong>有多个子节点，形成层次结构</strong>。</li>
+<li>持久节点（Persistent Node）：<br>持久节点在创建后一直存在，<strong>直到主动删除。<br>持久节点的数据和子节点都是持久的</strong>，即它们在节点创建后仍然存在，直到被显式删除。</li>
+<li>临时节点（Ephemeral Node）：<br>临时节点的<strong>生命周期与客户端会话绑定</strong>，当会话结束（例如客户端关闭或与ZooKeeper集合的连接断开）<br>时，<strong>临时节点将自动被删除</strong>。<br>临时节点的数据和子节点也将随之被删除。</li>
+<li>顺序节点（Sequential Node）：<br>顺序节点在创建时会自动**分配一个全局唯一且递增的编号。<br>**顺序节点的编号由ZooKeeper集合维护，可以用于实现有序性或生成全局唯一的标识符。</li>
+</ol>
+<h3 id="Watcher机制"><a href="#Watcher机制" class="headerlink" title="Watcher机制"></a>Watcher机制</h3><p>Watcher机制是ZooKeeper中非常重要的概念，它允许客户端在ZooKeeper上设置监视点，以便在节点发生变化时<br>接收通知。Watcher机制使得开发人员可以及时获取关于数据变化的通知，以便采取相应的操作。  </p>
+<p><strong>详细说明</strong>：</p>
+<ol>
+<li><p>注册Watcher：<br>客户端可以通过在对节点<strong>进行操作时注册Watcher来设置监视点</strong>。例如，在创建、更新或删除节点时都可以<br>注册Watcher。</p>
+<p><strong>客户端在注册Watcher时需要指定监视的路径和Watcher对象</strong>。当指定路径的节点<strong>发生变化时，ZooKeeper<br>会将通知发送给客户端</strong>。</p>
+</li>
+<li><p>Watcher通知：<br>当一个节点发生变化时，ZooKeeper会将通知发送给注册了Watcher的客户端。</p>
+<p><strong>Watcher通知是一次性的</strong>，也就是说，当客户端接收到Watcher通知后，该Watcher将被移除，需要客户端<strong>重<br>新注册Watcher才能再次接收通知。</strong></p>
+</li>
+<li><p>Watcher的类型：<br>数据变更触发的Watcher（Data Watcher）：当节点的数据发生变化时触发，例如节点的值被修改。</p>
+<p>子节点变更触发的Watcher（Child Watcher）：当节点的子节点发生变化时触发，例如新增或删除子节点。<br>连接状态变更触发的Watcher（Existence Watcher）：当客户端与ZooKeeper集合的连接状态发生变化时触<br>发，例如连接断开或重新连接。</p>
+</li>
+<li><p>Watcher的触发流程：<br>当一个节点发生变化时，ZooKeeper首先会**将通知发送给与该节点相关的Watcher。<br>**客户端接收到Watcher通知后，需要处理通知并根据需要采取相应的操作，例如重新读取数据或重新注册<br>Watcher。</p>
+</li>
+<li><p>Watcher的注意事项：<br>Watcher通知是异步的，<strong>客户端需要保证处理Watcher通知的代码是线程安全的。<br><strong>Watcher通知是</strong>最终一致性的</strong>，即ZooKeeper不能保证Watcher通知的实时性，只能保证最终一致性。<br>Watcher通知是有序的，当多个Watcher同时触发时，ZooKeeper会<strong>按照注册顺序依次发送通知</strong>。</p>
+</li>
+</ol>
+<p>通过理解Watcher机制，开发人员可以更好地利用Zookeeper来实现分布式系统中的试试数据变更和协调操作。</p>
+<p><mark>Watcher机制提供了一种高效且可靠的方式，使得分布式系统能够试试相应结点变化，<strong>保持数据的一致性</strong></mark></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">总结, 手写RPC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/15/%E5%AE%9E%E4%B9%A0dayEnd/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day35" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1173,87 +1298,6 @@
 
 
   
-    <article id="post-实习day26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/">实习day26</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/" class="archive-article-date">
-  	<time datetime="2023-07-21T11:30:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>周总结：</p>
-<p>本周工作：</p>
-<pre><code>1. 熟悉xes-aws-app、xes-nj-app业务逻辑
-2. 开发环境本地接口调试
-3. 辅助吴晨程进行数据调研并进行整理归档
-4. 调整cncert有关文档结构并修改相关内容
-</code></pre>
-<p>下周计划：<br>    1. 修改并重新设计cncert数据库表<br>    2. 将cncert项目进行重构并在本地进行调试运行</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/21/%E5%AE%9E%E4%B9%A0day26/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1376,6 +1420,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">手写RPC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">总结, 手写RPC</a>
               </li>
             
             <div class="clearfix"></div>
