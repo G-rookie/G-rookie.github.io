@@ -146,6 +146,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-day37" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/23/day37/">day37</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/23/day37/" class="archive-article-date">
+  	<time datetime="2023-08-23T13:50:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于分布式相关理论</p>
+<h3 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h3><p>CAP 理论对分布式系统的特性做了高度抽象，形成了三个指标：</p>
+<p><strong>一致性（Consistency）</strong>：客户端的每次读操作，不管访问哪个结点，<strong>读到的都是同一份最新的数据</strong>（读取失败，说明结点之间还在同步数据）并不会出现读到不同的结点，得到的数据不同这种情况。</p>
+<p><strong>所以一致性强调的不是数据完整，而是各节点间的数据一致</strong>。</p>
+<p><strong>可用性（Availability）</strong>：任何来自客户端的请求，不管访问哪个结点，都能得到相应数据，但不保证同一份最新数据。</p>
+<p>因此可以把可用性看做是分布式系统对客户端的另一种承诺：<strong>尽量返回数据，不会不响应，但不保证每个结点返回的数据都是最新的。</strong>因此，可用性这个指标强调的服务可用，但不保证绝对的数据一致。</p>
+<p><strong>分区容错性（Partition Tolerance）</strong>：<strong>当结点出现任意数量的消息丢失或高延迟的时候，系统仍然可以继续提供服务</strong></p>
+<p>分布式系统会告诉客户端：不管内部出现何种数据同步问题，仍然对外提供服务。这个指标强调：<strong>集群对分区故障的容错能力</strong></p>
+<p>总之：一致性、可用性、分区容错性3个指标不可兼得，只能选两个。一般就3个模型，即：AP模型、CP模型和AC模型</p>
+<h3 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h3><p>其是CAP理论中的AP的延伸，它强调的是<strong>可用性</strong>，这个理论广泛应用在大型互联网的后台当中。它的核心思想就是**基本可用（Basically Available）和最终一致性（Eventually consistent）  **。</p>
+<p>基本可用本质上就是一种妥协：在出现结点故障或者系统过载的时候，<strong>通过牺牲非核心功能的可用性，保证核心功能的稳定运行</strong>。</p>
+<p>常用手段：服务降级、体验降级、流量削峰、延迟相应、接口限流、服务熔断等。</p>
+<p>最终一致性：系统中所有的数据副本在经过一段时间的同步后，最终能够达到一直的状态。</p>
+<blockquote>
+<p>就是结点键的数据存在短暂的的不一致，但经过一段时间后，最终会达到一致的状态。</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">手写RPC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/23/day37/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习dayEnd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1128,147 +1228,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day27" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/">实习day27</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/" class="archive-article-date">
-  	<time datetime="2023-07-24T11:27:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于新项目和锁相关</p>
-<h2 id="关于新项目"><a href="#关于新项目" class="headerlink" title="关于新项目"></a>关于新项目</h2><p>目前接手了一个新的项目（也不能说是新的，前一个人已经完成功能的开发，目前只是在原有的基础上进行重构）。今天在现有的设计文档进行重写，然后针对已有的字段进行数据库表字段的重新设计。</p>
-<h2 id="关于锁相关"><a href="#关于锁相关" class="headerlink" title="关于锁相关"></a>关于锁相关</h2><ul>
-<li><p>线程要不要锁住同步资源</p>
-<ul>
-<li><p>锁住：悲观锁</p>
-</li>
-<li><p>不锁住：乐观锁</p>
-<blockquote>
-<p>二者并不是值某两种类型的锁，而是定义出来的概念或思想（主要指<strong>看待并发同步角度</strong>）</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><p>锁住同步资源失败，线程要不要阻塞</p>
-<ul>
-<li>阻塞</li>
-<li>不阻塞<ul>
-<li>自旋锁（循环加锁—&gt; 等待）</li>
-<li>适应性自旋锁</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>多个线程竞争同步资源的流程细节有没有区别</p>
-<ul>
-<li><strong>无锁</strong>：不锁住资源，多个线程只有一个能修改资源成功，其他线程会重试</li>
-<li><strong>偏向锁：</strong>同一个线程执行同步资源是自动获取资源</li>
-<li><strong>轻量级锁</strong>：多个线程竞争同步资源时，没有获取资源的线程自选等待锁释放</li>
-<li><strong>重量级锁</strong>： 多个线程竞争同步资源时，没有获取资源的线程阻塞等待唤醒</li>
-</ul>
-</li>
-<li><p>多个线程竞争是要不要插队</p>
-<ul>
-<li>排队：公平锁</li>
-<li>先尝试插队，插队失败再排队：非公平锁</li>
-</ul>
-</li>
-<li><p>一个线程中的多个流程能不能获取同一把锁</p>
-<ul>
-<li>能：可重入锁</li>
-<li>不能：不可重入锁</li>
-</ul>
-</li>
-<li><p>多个线程能不能共享一把锁</p>
-<ul>
-<li>能：共享锁</li>
-<li>不能：排它锁（独占锁）</li>
-</ul>
-</li>
-</ul>
-<p>PS：</p>
-<p>wait和sleep的区别：</p>
-<ul>
-<li><p>属于不同的类</p>
-</li>
-<li><p>释不释放锁</p>
-</li>
-<li><p>是否需要唤醒</p>
-</li>
-<li><p><strong>是否持有锁才执行</strong></p>
-<blockquote>
-<p>sleep可以在持有锁或者不持有锁时执行，wait方法必须只有锁时才可以执行</p>
-<p>深入到synchronized底层在objectMonitor方法中有owner字段，标记持有锁的线程，放入到waitSet（保存wait的线程信息）中。其中synchronized是基于对象实现的。Java对象中有一个对象头，其中有一个MarkWord字段会指向ObjectMonitor。</p>
-<p>所以wait方法会将尺有所的线程从owner放到WaitSet集合中，这个操作是在修改ObjectMonitor对象，如果没有持有synchronized锁，是无法操作ObjectMonitor对象的。</p>
-</blockquote>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/24/%E5%AE%9E%E4%B9%A0day27/">展开全文 >></a>
         </p>
       
 
