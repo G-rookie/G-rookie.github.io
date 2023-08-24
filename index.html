@@ -146,6 +146,162 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-day38" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/24/day38/">day38</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/24/day38/" class="archive-article-date">
+  	<time datetime="2023-08-24T14:25:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于雪花算法</p>
+<h2 id="雪花算法"><a href="#雪花算法" class="headerlink" title="雪花算法"></a>雪花算法</h2><p>雪花算法是一个分布式id生成器方案</p>
+<p>常规雪花算法方式为（1bit不用用作符号位）：</p>
+<ul>
+<li><p>41bit时间戳：这里采用的就是当前系统的具体时间，单位为毫秒</p>
+</li>
+<li><p>10bit工作机器ID（workerId）：每台机器分配一个id，这样可以标示不同的机器，但是上限为1024，标示一个集群某个业务最多部署的机器个数上限</p>
+</li>
+<li><p>12bit序列号（自增域）：表示在某一毫秒下，这个自增域最大可以分配的bit个数，在当前这种配置下，每一毫秒可以分配2^12个数据，也就是说QPS可以到 409.6 w&#x2F;s。</p>
+</li>
+</ul>
+<p>本次手写分布式雪花算法借鉴其思想，其中的分配为：</p>
+<ul>
+<li>42bit时间戳：采用从2022-1-1开始，单位毫秒</li>
+<li>12bit序列号（自增）：表示在某一个毫秒下，这个自增域最大可以分配的bit个数。</li>
+<li>5bit机房号：表示机房数量</li>
+<li>5bit机器号：表示机器数量</li>
+</ul>
+<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><h4 id="时间回拨问题"><a href="#时间回拨问题" class="headerlink" title="时间回拨问题"></a>时间回拨问题</h4><ul>
+<li><p>直接抛异常：这种方式不友好，太粗暴</p>
+</li>
+<li><p>采用等待跟上次时间的一段范围：这种算是简单解决，可以接受，但是如果等待一段时间后再出现回拨，则抛异常，可接受，但是不算彻底解决</p>
+<p>手写图省事，直接抛异常</p>
+</li>
+</ul>
+<h5 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h5><p>启动时间戳采用的是“历史时间”，每次请求只增序列值，序列值增满，然后“历史之间”增1，序列值重新计算</p>
+<h4 id="机器id分配及回收"><a href="#机器id分配及回收" class="headerlink" title="机器id分配及回收"></a>机器id分配及回收</h4><ul>
+<li><p>采用zookeeper的顺序结点分配：解决了分配，回收可采用zookeeper临时结点回收，但是临时结点不可靠，存在无故小时问题，因此也不可靠</p>
+</li>
+<li><p>采用DB中输入数据作为结点值：解决了分配，没有解决回收</p>
+<p>没有考虑该情况</p>
+</li>
+</ul>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>这里机器id分配和回收具体有两种方案：zookeeper和db。理论上分配方案zk是通过哈希和扩容机器，而db是通过查找机制。回收方案，zk采用的是永久节点，节点中存储下次过期时间，客户端定时上报（设置心跳），db是添加过期时间字段，查找时候判断过期字段。</p>
+<h4 id="机器id上限"><a href="#机器id上限" class="headerlink" title="机器id上限"></a>机器id上限</h4><p>该问题在业内都没有处理，也就是说如果采用雪花算法，则必定会存在该问题，但是该问题也只有需要大量的业务机器共享的场景才会出现，这种情况，采用客户端双Buffer+DB这种非雪花算法的方案也未尝不可。</p>
+<h5 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h5><p>这个采用将改造版雪花+zookeeper分配id方案作为服务端的节点，客户端采用双Buffer+异步获取提高性能，服务端采用每次请求时间戳增1</p>
+<h2 id="改进版雪花设计"><a href="#改进版雪花设计" class="headerlink" title="改进版雪花设计"></a>改进版雪花设计</h2><ul>
+<li><p>41bit时间戳照常</p>
+</li>
+<li><p>9bit序列号</p>
+</li>
+<li><p>13bit机器id（从高位换到低位）</p>
+<blockquote>
+<p>“机器id”调整到最后，<strong>是为了避免“序列号”增1导致的整体数据增1的问题，这样可以在一定程度上规避外部数据对id的猜测，以防止恶意爬取</strong></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="时间获取处理"><a href="#时间获取处理" class="headerlink" title="时间获取处理"></a>时间获取处理</h2><h3 id="采用“历史时间”："><a href="#采用“历史时间”：" class="headerlink" title="采用“历史时间”："></a>采用“历史时间”：</h3><p>这里是我们方案的核心，我们这里采用的不是实际时间，而是历史时间，在进程启动后，我们会将当前时间（实际处理采用了延迟10ms启动）作为该业务这台机器进程的时间戳中的起始时间字段。后续的自增是在序列号自增到最大值时候时间戳增1，而序列号重新归为0，算是将时间戳和序列号作为一个大值进行自增，只是初始化不同。</p>
+<h3 id="序列号自增："><a href="#序列号自增：" class="headerlink" title="序列号自增："></a>序列号自增：</h3><p>每次有数据请求，直接对序列号增加即可，序列号从0增加到最大，到达最大时，时间戳字段增加1，其实是时间增加1毫秒，序列号重0计算。</p>
+<h3 id="机器id分配和回收："><a href="#机器id分配和回收：" class="headerlink" title="机器id分配和回收："></a>机器id分配和回收：</h3><p>对机器的分配和回收这里有三种默认方式，不过也支持用户自定义实现</p>
+<h4 id="（单机版）zookeeper分配和回收："><a href="#（单机版）zookeeper分配和回收：" class="headerlink" title="（单机版）zookeeper分配和回收："></a>（单机版）zookeeper分配和回收：</h4><p>分配采用哈希方式在预分配的一些空置永久节点中进行分配，节点后缀是有编号的，查找其中节点没有被占用，或者被占用但是占用超时的节点进行分配，其中分配的编号就是WorkerId。分配完毕，定期更新节点中的超时时间，超时后下次节点分配时会判断超时。这里初始节点默认设置为16个节点，如果节点都被占用（占用或者没占用但是超时时间没过），则模仿HashMap方式进行2倍扩容，然后重新分配。</p>
+<h4 id="（单机版）db分配和回收："><a href="#（单机版）db分配和回收：" class="headerlink" title="（单机版）db分配和回收："></a>（单机版）db分配和回收：</h4><p>先看过期的里面最小的id，找到了则当前workerId就是机器id。如果过期中没找到，则查看其中最大的workerId并增1，然后新增，当前增1后的workerId就是分配的workerId。</p>
+<h4 id="（分布式版）集群分配workerId："><a href="#（分布式版）集群分配workerId：" class="headerlink" title="（分布式版）集群分配workerId："></a>（分布式版）集群分配workerId：</h4><p>客户端的wokerId是每次Buffer请求中携带过来的，这样对客户端而言就没有workerId上限问题，因为workerId是服务端节点分配的。由于采用了网络传输，为了提高性能，客户端这里采用双Buffer+异步刷新方式，server端这里采用改进版的雪花+zookeeper分配和回收wokerId方式。</p>
+<h2 id="问题解决方式"><a href="#问题解决方式" class="headerlink" title="问题解决方式"></a>问题解决方式</h2><h3 id="1-时间回拨问题："><a href="#1-时间回拨问题：" class="headerlink" title="1.时间回拨问题："></a>1.时间回拨问题：</h3><p>采用历史时间则天然的不存在时间回拨问题。但是在超高并发情况下，历史的时间很快用完，时间一直保持在最新时间的话，这个时候出现时间回拨，则采用业界对于时间回拨的处理方式（首次等待，即等待一段回拨时间）</p>
+<h3 id="2-机器id分配及回收："><a href="#2-机器id分配及回收：" class="headerlink" title="2.机器id分配及回收："></a>2.机器id分配及回收：</h3><p>机器的id分配和回收，我们这里采用zookeeper和db两种方式分配，这两种方式，均只有在进程启动的时候生效，后续就不再跟客户端有更多交互，唯一的是有个定时上报过期时间的任务。该过期时间为24小时，因此zookeeper或者db宕机一天，该发号器都不会有任何问题。回收这里采用的是上报的过期时间，过期了，则下次分配可以直接使用。</p>
+<h3 id="3-机器id上限"><a href="#3-机器id上限" class="headerlink" title="3.机器id上限"></a>3.机器id上限</h3><p>其中单机版的zookeeper和 DB均不是解决这个问题而存在的，其中（分布式版）distribute分配workerId是采用服务端方式，用服务端方式启动作为workerId的分配者，客户端使用的时候每次Buffer请求中服务端会将那一次的workerId和时间戳返回过来。这样虽然服务集群的workerId上限（即服务集群节点个数上限）是有的，但是对于客户端拥有的集群而言，理论上无上限，因为一个服务端节点就可以服务一个业务集群中的许多节点。</p>
+<h1 id="workerId分配"><a href="#workerId分配" class="headerlink" title="workerId分配"></a>workerId分配</h1><p>分配workerId我们这里有三种默认方式，用户也可以自定义自己的默认实现方式</p>
+<blockquote>
+<p>1.（单机版）zookeeper分配和回收<br> 2.（单机版）db分配和回收<br> 3.（分布式版）通过服务端分配和回收</p>
+</blockquote>
+<p>其中单机版都是直接提供jar包就可以直接使用，只是根据采用的方式不同，进行不同的配置即可</p>
+<h2 id="zookeeper分配"><a href="#zookeeper分配" class="headerlink" title="zookeeper分配"></a>zookeeper分配</h2><h3 id="哈希分配"><a href="#哈希分配" class="headerlink" title="哈希分配"></a>哈希分配</h3><p>采用zookeeper进行分配workerId的时候，首先生成一个uuid，然后根据这个uuid进行对当前的命名空间的当前已分配的空间最大值进行取余，得到一个临时的下标，然后查看以这个下标作为的zookeeper节点，查看该节点是否被占用，也就是该节点中的过期时间是否过期，如果过期，则该下标就是对应的workerId。如果没有过期，则该下标+1，并重新判断，如果到达当前分配空间的最大值，则从0开始继续查找可用节点，如果最后找到最开始的节点，则说明当前空间中已经没有可用节点，则进入到扩容模块。这里的扩容其实很简单，其实就是在初始节点个数（初始节点个数为16）上乘2，然后重新哈希。</p>
+<h2 id="db分配"><a href="#db分配" class="headerlink" title="db分配"></a>db分配</h2><h3 id="查找数据"><a href="#查找数据" class="headerlink" title="查找数据"></a>查找数据</h3><p>采用db方式的话，需要先保证已经创建了<code>butterfly_uuid_generator</code>，如果没有则先在对应的库中创建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `butterfly_uuid_generator` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &#x27;主键id&#x27;,</span><br><span class="line">  `namespace` varchar(128) DEFAULT &#x27;&#x27; COMMENT &#x27;命名空间&#x27;,</span><br><span class="line">  `work_id` int(16) COMMENT &#x27;工作id&#x27;,</span><br><span class="line">  `last_expire_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#x27;下次失效时间&#x27;,</span><br><span class="line">  `uid` varchar(128) DEFAULT &#x27;0&#x27; COMMENT &#x27;本次启动唯一id&#x27;,</span><br><span class="line">  `ip` bigint(20) NOT NULL DEFAULT &#x27;0&#x27; COMMENT &#x27;ip&#x27;,</span><br><span class="line">  `process_id` varchar(128) NOT NULL DEFAULT &#x27;0&#x27; COMMENT &#x27;进程id&#x27;,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `idx_name_work` (`namespace`,`work_id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&#x27;发号器表&#x27;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查找数据，这里首先是在对应的命名空间中，查找过期的数据，如果能找到其中id最小的，则该id对应中的workerId就是我们要分配的workerId，如果都没有过期，这块有问题，明天继续看，那么就找最小的workerId，并将workerId+1，重新插入到数据库中（之前查询其实是采用事务中添加悲观锁方式，保证这里不会有多个重复的插入），其中对应的workerId+1就是我们要分配的workerId。</p>
+<h3 id="定时更新（心跳）"><a href="#定时更新（心跳）" class="headerlink" title="定时更新（心跳）"></a>定时更新（心跳）</h3><p>workerId分配之后，每次都要定时（每5秒）刷新当前命名空间中对应workerId中对应的下次过期时间（就是当前时间往后推24小时）。如果对应的进程异常宕机了，则该数据对应的这个数据会存在，只是过期时间不会再更新，而如果改进程是正常宕机，则会正常将db中的对应的那条数据删除掉。方便下次分配者继续分配workerId。</p>
+<p>参考：</p>
+<p>[简书—分布式id生成器](<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7680f88b990b">分布式id生成器：彻底解决雪花算法时间回拨问题 - 简书 (jianshu.com)</a>)</p>
+<p>[知乎—讲讲雪花算法](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/433690272">面试官：讲讲雪花算法，越详细越好 - 知乎 (zhihu.com)</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">手写RPC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/24/day38/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-day37" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1128,106 +1284,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/">实习day28</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/" class="archive-article-date">
-  	<time datetime="2023-07-25T11:39:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于原子类学习和项目部分回溯</p>
-<h3 id="项目部分回溯"><a href="#项目部分回溯" class="headerlink" title="项目部分回溯"></a>项目部分回溯</h3><p>为了规范应用错误的传递，保证错误的可追溯，减少定位的问题，做了一个错误码的分类，做了错误级别，错误分类、错误场景、错误编码。</p>
-<p>链路追踪：是一种分布式架构下实现请求链路可是话监控的一种技术。核心目的时区了解分布式系统中的一些请求调用的一个行为，从而去从整体到局部去详细展示各个系统的一个指标，去实现故障的快速定位和缩短故障的排除的一个时间。</p>
-<p>常用的链路追踪工具有ZipKin、Skywalking、Cat、Pinpoint</p>
-<p>链路追踪只是分布式链路监控工具里面的核心之一，除此之外还包括可视化、服务依赖关系的梳理和数据分析能力等等</p>
-<h3 id="原子类学习"><a href="#原子类学习" class="headerlink" title="原子类学习"></a>原子类学习</h3><p>了解原子类的相关概念和原理。</p>
-<p>原子类定义：</p>
-<p>java 1.5引进原子类，具体在java.util.concurrent.atomic包下，atomic包里面一共提供了13个类，分为4种类型，分别是：原子更新基本类型，原子更新数组，原子更新引用，原子更新属性。原子类也是java实现同步的一套解决方案。</p>
-<p>为什么引入原子类？</p>
-<p>在很多时候，我们需要的仅仅是一个简单的、高效的、线程安全的递增或者递减方案，这个方案一般需要满足以下要求：</p>
-<p>1、 简单：操作简单，底层实现简单</p>
-<p>2、 高效：占用资源少，操作速度快</p>
-<p>3、 安全：在高并发和多线程环境下要保证数据的正确性</p>
-<p>对于是需要简单的递增或者递减的需求场景，使用synchronized关键字和lock固然可以实现，但代码写的会略显冗余，且性能会有影响，此时用原子类更加方便。</p>
-<p>参考：</p>
-<p>[同步之原子类—知乎](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/115345089">Java并发编程九 同步之原子类（Atomic类） - 知乎 (zhihu.com)</a>)</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/">展开全文 >></a>
         </p>
       
 

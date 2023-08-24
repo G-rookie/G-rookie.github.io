@@ -146,6 +146,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/">实习day28</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/" class="archive-article-date">
+  	<time datetime="2023-07-25T11:39:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于原子类学习和项目部分回溯</p>
+<h3 id="项目部分回溯"><a href="#项目部分回溯" class="headerlink" title="项目部分回溯"></a>项目部分回溯</h3><p>为了规范应用错误的传递，保证错误的可追溯，减少定位的问题，做了一个错误码的分类，做了错误级别，错误分类、错误场景、错误编码。</p>
+<p>链路追踪：是一种分布式架构下实现请求链路可是话监控的一种技术。核心目的时区了解分布式系统中的一些请求调用的一个行为，从而去从整体到局部去详细展示各个系统的一个指标，去实现故障的快速定位和缩短故障的排除的一个时间。</p>
+<p>常用的链路追踪工具有ZipKin、Skywalking、Cat、Pinpoint</p>
+<p>链路追踪只是分布式链路监控工具里面的核心之一，除此之外还包括可视化、服务依赖关系的梳理和数据分析能力等等</p>
+<h3 id="原子类学习"><a href="#原子类学习" class="headerlink" title="原子类学习"></a>原子类学习</h3><p>了解原子类的相关概念和原理。</p>
+<p>原子类定义：</p>
+<p>java 1.5引进原子类，具体在java.util.concurrent.atomic包下，atomic包里面一共提供了13个类，分为4种类型，分别是：原子更新基本类型，原子更新数组，原子更新引用，原子更新属性。原子类也是java实现同步的一套解决方案。</p>
+<p>为什么引入原子类？</p>
+<p>在很多时候，我们需要的仅仅是一个简单的、高效的、线程安全的递增或者递减方案，这个方案一般需要满足以下要求：</p>
+<p>1、 简单：操作简单，底层实现简单</p>
+<p>2、 高效：占用资源少，操作速度快</p>
+<p>3、 安全：在高并发和多线程环境下要保证数据的正确性</p>
+<p>对于是需要简单的递增或者递减的需求场景，使用synchronized关键字和lock固然可以实现，但代码写的会略显冗余，且性能会有影响，此时用原子类更加方便。</p>
+<p>参考：</p>
+<p>[同步之原子类—知乎](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/115345089">Java并发编程九 同步之原子类（Atomic类） - 知乎 (zhihu.com)</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/25/%E5%AE%9E%E4%B9%A0day28/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day27" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1007,95 +1107,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/11/%E5%AE%9E%E4%B9%A0day19/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day18" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/10/%E5%AE%9E%E4%B9%A0day18/">实习day18</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/10/%E5%AE%9E%E4%B9%A0day18/" class="archive-article-date">
-  	<time datetime="2023-07-10T12:18:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目遇到问题</p>
-<h3 id="项目问题"><a href="#项目问题" class="headerlink" title="项目问题"></a>项目问题</h3><p>目前项目基本完成，具体一些小细节需要进行优化。</p>
-<ul>
-<li><p>对于飞书告警，以小卡片的形式进行发送。消息字段以字符串的形式进行显示，但对于异常消息过多的情况，可读性会比较差，所以增加了一个飞书文档，先将部分异常消息进行告警，超过设定的字段增加详情超链接形式，点击行进跳转即可，但是连接地址以字符串的形式展示，无法点击跳转。</p>
-<blockquote>
-<p>解决方式：查询飞书API卡片的文档，将连接以Markdown格式进行展示，解决问题</p>
-</blockquote>
-</li>
-<li><p>对于表格记录，目前表格的写入是逐条写入，造成程序运行缓慢。目前解决思路是加一个缓存，先将数据存放到缓存中，批量进行写入。</p>
-</li>
-<li><p>对于告警卡片需要显示数据总数，目前想到的新增一个全局变量，然后将该变量加入到表格所需的内容中。但是针对全局变量，回对性能造成一定的开销，还有可能会造成数据的覆盖以及或其他情况。</p>
-<blockquote>
-<p>修改其中的方法，增加一个方法入参，将所需的全局变量改成局部变量</p>
-</blockquote>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/10/%E5%AE%9E%E4%B9%A0day18/">展开全文 >></a>
         </p>
       
 
