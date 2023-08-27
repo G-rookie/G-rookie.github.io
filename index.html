@@ -146,6 +146,135 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-day39" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/27/day39/">day39</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/27/day39/" class="archive-article-date">
+  	<time datetime="2023-08-27T10:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于序列化</p>
+<h2 id="序列化相关知识"><a href="#序列化相关知识" class="headerlink" title="序列化相关知识"></a>序列化相关知识</h2><h3 id="序列化原因："><a href="#序列化原因：" class="headerlink" title="序列化原因："></a>序列化原因：</h3><p>其实序列化最终的目的是为了对象可以<strong>跨平台存储，和进行网络传输</strong>。而我们进行跨平台存储和网络传输的方式就是IO，而我们的IO支持的数据格式就是字节数组。</p>
+<p>因为我们单方面的只把对象转成字节数组还不行，因为没有规则的字节数组我们是没办法把对象的本来面目还原回来的，所以我们必须在把对象转成字节数组的时候就制定一种规则<strong>（序列化）</strong>，那么我们从IO流里面读出数据的时候再以这种规则把对象还原回来<strong>（反序列化）。</strong></p>
+<h3 id="什么情况下需要序列化？"><a href="#什么情况下需要序列化？" class="headerlink" title="什么情况下需要序列化？"></a><strong>什么情况下需要序列化？</strong></h3><p>本质上存储和网络传输 都需要经过 把一个对象状态保存成一种跨平台识别的字节格式，然后其他的平台才可以通过字节信息解析还原对象信息。</p>
+<hr>
+<h3 id="序列化技术选型的几个关键点"><a href="#序列化技术选型的几个关键点" class="headerlink" title="序列化技术选型的几个关键点"></a>序列化技术选型的几个关键点</h3><p>序列化协议各有千秋，不能简单的说一种序列化协议是最好的，只能从你的当时环境下去选择最适合你们的序列化协议，如果你要为你的公司项目进行序列化技术的选型，那么主要从以下几个因素。</p>
+<h4 id="协议是否支持跨平台"><a href="#协议是否支持跨平台" class="headerlink" title="协议是否支持跨平台"></a><strong>协议是否支持跨平台</strong></h4><p>如果你们公司有好多种语言进行混合开发，那么就肯定不适合用有语言局限性的序列化协议，要不然你JDK序列化出来的格式，其他语言并没法支持。</p>
+<h4 id="序列化的速度"><a href="#序列化的速度" class="headerlink" title="序列化的速度"></a><strong>序列化的速度</strong></h4><p>如果序列化的频率非常高，那么选择序列化速度快的协议会为你的系统性能提升不少。</p>
+<h4 id="序列化出来的大小"><a href="#序列化出来的大小" class="headerlink" title="序列化出来的大小"></a><strong>序列化出来的大小</strong></h4><p>如果频繁的在网络中传输的数据那就需要数据越小越好，小的数据传输快，也不占带宽，也能整体提升系统的性能。</p>
+<hr>
+<h3 id="序列化的方式"><a href="#序列化的方式" class="headerlink" title="序列化的方式"></a><strong>序列化的方式</strong></h3><p>序列化只是一种拆装组装对象的规则，那么这种规则肯定也可能有多种多样，比如现在常见的序列化方式有：</p>
+<p>JDK（不支持跨语言）、JSON、XML、Hessian、Kryo（不支持跨语言）、Thrift、Protostuff、FST（不支持跨语言）</p>
+<h4 id="1、java原生序列化方式"><a href="#1、java原生序列化方式" class="headerlink" title="1、java原生序列化方式"></a>1、java原生序列化方式</h4><p>这种方式只能将支持 java.io.Serializable 接口的对象写入流中。每个 serializable 对象的类都被编码，编码内容包括类名和类签名、对象的字段值和数组值，以及从初始对象中引用的其他所有对象的闭包。</p>
+<p>java.io.ObjectOutputStream代表对象输出流，它的writeObject(Object obj)方法可对参数指定的obj对象进行序列化，把得到的字节序列写到一个目标输出流中。只有实现了Serializable和Externalizable接口的类的对象才能被序列化。</p>
+<p>java.io.ObjectInputStream代表对象输入流，它的readObject()方法从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回。</p>
+<h4 id="2、json序列化"><a href="#2、json序列化" class="headerlink" title="2、json序列化"></a>2、json序列化</h4><p>Json序列化一般会使用jackson包，通过ObjectMapper类来进行一些操作，比如将对象转化为byte数组或者将json串转化为对象。现在的大多数公司都将json作为服务器端返回的数据格式。比如调用一个服务器接口，通常的请求为xxx.json?a&#x3D;xxx&amp;b&#x3D;xxx的形式。</p>
+<h4 id="3、Fastjson序列化"><a href="#3、Fastjson序列化" class="headerlink" title="3、Fastjson序列化"></a>3、Fastjson序列化</h4><p>fastjson 是由阿里巴巴开发的一个性能很好的Java 语言实现的 Json解析器和生成器。特点：速度快，测试表明fastjson具有极快的性能，超越任其他的java json parser。功能强大，完全支持java bean、集合、Map、日期、Enum，支持范型和自省。无依赖，能够直接运行在Java SE 5.0以上版本<br>支持Android。使用时候需引入FastJson第三方jar包。</p>
+<h4 id="4、ProtoBuff序列化"><a href="#4、ProtoBuff序列化" class="headerlink" title="4、ProtoBuff序列化"></a>4、ProtoBuff序列化</h4><blockquote>
+<p>ProtocolBuffer是一种轻便高效的结构化数据存储格式，可以用于结构化数据序列化。适合做数据存储或 RPC 数据交换格式。可用于通讯协议、数据存储等领域的语言无关、平台无关、可扩展的序列化结构数据格式。</p>
+<p>优点：跨语言；序列化后数据占用空间比JSON小，JSON有一定的格式，在数据量上还有可以压缩的空间。</p>
+<p>缺点：它以二进制的方式存储，无法直接读取编辑，除非你有 .proto 定义，否则无法直接读出 Protobuffer的任何内容。</p>
+<p>其与thrift的对比：两者语法类似，都支持版本向后兼容和向前兼容，thrift侧重点是构建跨语言的可伸缩的服务，支持的语言多，同时提供了全套RPC解决方案，可以很方便的直接构建服务，不需要做太多其他的工作。 Protobuffer主要是一种序列化机制，在数据序列化上进行性能比较，Protobuffer相对较好。</p>
+</blockquote>
+<p>ProtoBuff序列化对象可以很大程度上将其压缩，可以大大减少数据传输大小，提高系统性能。对于大量数据的缓存，也可以提高缓存中数据存储量。原始的ProtoBuff需要自己写.proto文件，通过编译器将其转换为java文件，略显繁琐。</p>
+<h4 id="5、Hessian序列化"><a href="#5、Hessian序列化" class="headerlink" title="5、Hessian序列化"></a>5、Hessian序列化</h4><p>Hessian是一个支持跨语言传输的二进制文本序列化协议，对比Java默认的序列化，Hessian的使用较简单，并且性能较高，现在的主流远程通讯框架几乎都支持Hessian，比如Dubbo，默认使用的就是Hessian，不过是Hessian的重构版。</p>
+<p>和java原生的Serializable序列化比较,hessian序列化的效率更高，且序列化的数据更小，在基于RPC的调用方式中性能更好。</p>
+<blockquote>
+<p>Hessian序列化是一种支持动态类型、跨语言、基于对象传输的网络协议，Java对象序列化的二进制流可以被其他语言（如，c++，python）。特性如下：</p>
+<p>自描述序列化类型。不依赖外部描述文件或者接口定义，用一个字节表示常用的基础类型，极大缩短二进制流。<br>语言无关，支持脚本语言<br>协议简单，比Java原生序列化高效 相比hessian1，hessian2中增加了压缩编码，其序列化二进制流大小事Java序列化的50%，序列化耗时是Java序列化的30%，反序列化耗时是Java序列化的20%。<br>Hessian会把复杂的对象所有属性存储在一个Map中进行序列化。所以在父类、子类中存在同名成员变量的情况下，hessian序列化时，先序列化子类，然后序列化父类。因此，反序列化结果会导致子类同名成员变量被父类的值覆盖。</p>
+<p>换个思路，既然你继承了一个父类，当然希望复用的越多越好，所以，使用hessian序列化的时候，避免开这一点就行了。</p>
+</blockquote>
+<h4 id="6、Kyro序列化"><a href="#6、Kyro序列化" class="headerlink" title="6、Kyro序列化"></a>6、Kyro序列化</h4><p>Kyro序列化是主流的比较成熟的序列化方案之一，目前广泛使用在大数据组件中，比如Hive、Storm等，性能比起Hessian还要优越，但是缺陷较明显，不支持跨语言交互，在dubbo2.6.x版本开始已经加入了Kyro序列化的支持</p>
+<p>kryo是一个高性能的序列化&#x2F;反序列化工具，由于其变长存储特性并使用了字节码生成机制，拥有较高的运行速度和较小的体积。</p>
+<p>kryo可以记录类型信息，这算是kryo的一大特点了，就是可以把对象信息直接写到序列化数据里，反序列化的时候可以精确地找到原始类信息，不会出错，这意味着在写readxxx方法时，无需传入Class或Type类信息。相应的，kryo提供两种读写方式。记录类型信息的writeClassAndObject&#x2F;readClassAndObject方法，以及传统的writeObject&#x2F;readObject方法。</p>
+<blockquote>
+<p>kryo性能非常好。比kyro更高效的序列化库就只有google的protobuf了（而且两者性能很接近），protobuf有个缺点就是要传输的每一个类的结构都要生成对应的proto文件（也可以都放在同一个proto文件中，如果考虑到扩展性的话，不建议放在一个proto文件中），如果某个类发生修改，还得重新生成该类对应的proto文件；另外考虑到项目中用的全部是java技术栈，不存在不同编程语言间的兼容性问题，因此最终采用了kryo作为序列化库。</p>
+<p>使用场景：（数据交换或数据持久化）比如使用kryo把对象序列化成字节数组发送给消息队列或者放到redis等Nosql中等等应用场景。<br>注意：由于kryo不是线程安全的，针对多线程情况下的使用，要对kryo进行一个简单的封装设计，从而可以多线程安全的使用序列化和反序列化</p>
+</blockquote>
+<p><strong>kryo的对象本身不是线程安全的</strong>，所以有两种选择：</p>
+<p>1、使用ThreadLocal来保证线程安全</p>
+<p>2、使用kryo提供的pool</p>
+<p>参考：</p>
+<p>[知乎—一文搞懂序列化和反序列化](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/316200445">一文搞懂序列化与反序列化 - 知乎 (zhihu.com)</a>)</p>
+<p>[知乎—理解序列化](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40462507">序列化理解起来很简单 - 知乎 (zhihu.com)</a>)</p>
+<p><a href="%5B%E5%87%A0%E7%A7%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%96%B9%E5%BC%8F%E7%9A%84%E6%80%BB%E7%BB%93(Serializable,json,Fastjson,ProtoBuff,Hessian%E5%92%8CKyro)_json%E5%BA%8F%E5%88%97%E5%8C%96serializable_HX_2022%E7%9A%84%E5%8D%9A%E5%AE%A2-CSDN%E5%8D%9A%E5%AE%A2%5D(https://blog.csdn.net/m0_46201444/article/details/115081351)">CSDN—几种序列化方式的总结</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">手写RPC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/27/day39/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-day38" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1152,138 +1281,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/27/%E5%AE%9E%E4%B9%A0day30/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day29" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/">实习day29</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/" class="archive-article-date">
-  	<time datetime="2023-07-26T11:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学习原子类相关</p>
-<h3 id="原子类相关："><a href="#原子类相关：" class="headerlink" title="原子类相关："></a>原子类相关：</h3><ul>
-<li><p>基本类型：</p>
-</li>
-<li><ul>
-<li>AtomicBoolean：布尔型</li>
-<li>AtomicInteger：整型</li>
-<li>AtomicLong：长整型</li>
-</ul>
-</li>
-<li><p>数组：</p>
-</li>
-<li><ul>
-<li>AtomicIntegerArray：数组里的整型</li>
-<li>AtomicLongArray：数组里的长整型</li>
-<li>AtomicReferenceArray：数组里的引用类型</li>
-</ul>
-</li>
-<li><p>引用类型：</p>
-</li>
-<li><ul>
-<li>AtomicReference：引用类型</li>
-<li>AtomicStampedReference：带有版本号的引用类型</li>
-<li>AtomicMarkableReference：带有标记位的引用类型</li>
-</ul>
-</li>
-<li><p>对象的属性：</p>
-</li>
-<li><ul>
-<li>AtomicIntegerFieldUpdater：对象的属性是整型</li>
-<li>AtomicLongFieldUpdater：对象的属性是长整型</li>
-<li>AtomicReferenceFieldUpdater：对象的属性是引用类型</li>
-</ul>
-</li>
-<li><p>JDK8新增DoubleAccumulator、LongAccumulator、DoubleAdder、LongAdder</p>
-</li>
-<li><ul>
-<li>是对AtomicLong等类的改进。比如LongAccumulator与LongAdder在高并发环境下比AtomicLong更高效。</li>
-</ul>
-</li>
-</ul>
-<p>Atomic包里的类基本都是使用<strong>Unsafe</strong>实现的包装类。</p>
-<p>Unsafe里边有几个方法(CAS)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一和第二个参数代表对象的实例以及地址，第三个参数代表期望值，第四个参数代表更新值</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapObject</span><span class="params">(Object var1, <span class="type">long</span> var2, Object var4, Object var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapInt</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">int</span> var4, <span class="type">int</span> var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapLong</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">long</span> var4, <span class="type">long</span> var6)</span>;</span><br></pre></td></tr></table></figure>
-
-<p>从原理上概述就是：Atomic包的类的实现绝大调用Unsafe的方法，而Unsafe底层实际上调用C代码，C代码调用汇编，最后生成一条CPU执行cmpxchg，完成操作。（所以CAS是原子的，因为他是一条CPU指令，不会被打断）</p>
-<p>参考：</p>
-<p>[Java中Atomic变量的实现原理是怎样的—Java_3y的回答](<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/39130725/answer/1006948362">(2 封私信 &#x2F; 43 条消息) java中Atomic变量的实现原理是怎样的？ - 知乎 (zhihu.com)</a>)</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">知识学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/">展开全文 >></a>
         </p>
       
 

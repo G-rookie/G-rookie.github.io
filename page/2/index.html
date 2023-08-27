@@ -146,6 +146,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习day29" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/">实习day29</a>
+    </h1>
+  
+
+        
+        <a href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/" class="archive-article-date">
+  	<time datetime="2023-07-26T11:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习原子类相关</p>
+<h3 id="原子类相关："><a href="#原子类相关：" class="headerlink" title="原子类相关："></a>原子类相关：</h3><ul>
+<li><p>基本类型：</p>
+</li>
+<li><ul>
+<li>AtomicBoolean：布尔型</li>
+<li>AtomicInteger：整型</li>
+<li>AtomicLong：长整型</li>
+</ul>
+</li>
+<li><p>数组：</p>
+</li>
+<li><ul>
+<li>AtomicIntegerArray：数组里的整型</li>
+<li>AtomicLongArray：数组里的长整型</li>
+<li>AtomicReferenceArray：数组里的引用类型</li>
+</ul>
+</li>
+<li><p>引用类型：</p>
+</li>
+<li><ul>
+<li>AtomicReference：引用类型</li>
+<li>AtomicStampedReference：带有版本号的引用类型</li>
+<li>AtomicMarkableReference：带有标记位的引用类型</li>
+</ul>
+</li>
+<li><p>对象的属性：</p>
+</li>
+<li><ul>
+<li>AtomicIntegerFieldUpdater：对象的属性是整型</li>
+<li>AtomicLongFieldUpdater：对象的属性是长整型</li>
+<li>AtomicReferenceFieldUpdater：对象的属性是引用类型</li>
+</ul>
+</li>
+<li><p>JDK8新增DoubleAccumulator、LongAccumulator、DoubleAdder、LongAdder</p>
+</li>
+<li><ul>
+<li>是对AtomicLong等类的改进。比如LongAccumulator与LongAdder在高并发环境下比AtomicLong更高效。</li>
+</ul>
+</li>
+</ul>
+<p>Atomic包里的类基本都是使用<strong>Unsafe</strong>实现的包装类。</p>
+<p>Unsafe里边有几个方法(CAS)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一和第二个参数代表对象的实例以及地址，第三个参数代表期望值，第四个参数代表更新值</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapObject</span><span class="params">(Object var1, <span class="type">long</span> var2, Object var4, Object var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapInt</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">int</span> var4, <span class="type">int</span> var5)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="type">boolean</span> <span class="title function_">compareAndSwapLong</span><span class="params">(Object var1, <span class="type">long</span> var2, <span class="type">long</span> var4, <span class="type">long</span> var6)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>从原理上概述就是：Atomic包的类的实现绝大调用Unsafe的方法，而Unsafe底层实际上调用C代码，C代码调用汇编，最后生成一条CPU执行cmpxchg，完成操作。（所以CAS是原子的，因为他是一条CPU指令，不会被打断）</p>
+<p>参考：</p>
+<p>[Java中Atomic变量的实现原理是怎样的—Java_3y的回答](<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/39130725/answer/1006948362">(2 封私信 &#x2F; 43 条消息) java中Atomic变量的实现原理是怎样的？ - 知乎 (zhihu.com)</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">知识学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/07/26/%E5%AE%9E%E4%B9%A0day29/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习day28" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1029,84 +1161,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/07/12/%E5%AE%9E%E4%B9%A0day20/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-实习day19" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/07/11/%E5%AE%9E%E4%B9%A0day19/">实习day19</a>
-    </h1>
-  
-
-        
-        <a href="/2023/07/11/%E5%AE%9E%E4%B9%A0day19/" class="archive-article-date">
-  	<time datetime="2023-07-11T12:43:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于项目结尾</p>
-<p>目前需求已经全部完成，今天主要是补充完成项目开发文档，解决测试人员的部分疑惑，另外根据实际做出相应的调整。</p>
-<p>另外，项目启动发现了一个问题，项目配置好数据库连接池之后，在数据查询到最大连接数量时， 后面连接数据池，后面直接抛出异常，数据连接达到最大上限，后面还得进行修改。</p>
-<p>昨天所说的文档写入缓慢问题，按照昨天的思路进行实操，但是没有成功，明天继续捣鼓一下。</p>
-<p>还有就是项目请求数据好像需要进行调整，是否有必要将请求到的数据先写成一个文件，然后从文件中读取。也就可能不需要所谓的数据库连接池，具体情况还得等评审结果确定。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java后端//" class="article-tag-list-link color2">Java后端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/07/11/%E5%AE%9E%E4%B9%A0day19/">展开全文 >></a>
         </p>
       
 
